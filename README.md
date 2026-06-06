@@ -2,7 +2,6 @@
 _Curso de Programación Asistida con IA - Chicas en Tecnología_ 🚀
 
 # 🐾 EduZOO — Plan de Proyecto
----
 
 ## 🎯 Problemática
 En los primeros grados de la escuela primaria, a muchos chicos les cuesta arrancar con la lectura, la escritura y la comprensión de textos básicos. Si estas dificultades no se resuelven a tiempo, terminan afectando todo su rendimiento escolar y agrandando la brecha en el aula.
@@ -41,7 +40,10 @@ A través de una interfaz visual atractiva, amigable y basada en temáticas de a
 ---
 
 ## 🎨 Moodboard
-*(Espacio para agregar imágenes, referencias visuales, paleta de colores y elementos de inspiración utilizados para el diseño de la plataforma).*
+
+*Diseño de interfaz inspirado en plataformas educativas lúdicas, utilizando una paleta de colores primarios y secundarios llamativos y un sistema visual basado en avatares de animales para captar la atención de los chicos.*
+
+<img width="899" height="1143" alt="moodBoard" src="https://github.com/user-attachments/assets/2b500577-8833-40ac-9567-c61f56dbaa76" />
 
 ---
 
@@ -55,7 +57,11 @@ A través de una interfaz visual atractiva, amigable y basada en temáticas de a
 ---
 
 ## 👥 Integrantes
-*   👤 **Nombre y Apellido** - [GitHub Profile](https://github.com/)
-*   👤 **Nombre y Apellido** - [GitHub Profile](https://github.com/)
-*   👤 **Nombre y Apellido** - [GitHub Profile](https://github.com/)
+*   👤 **Tamara Ajmechet González**
+*   👤 **Agustina Villagra**
+*   👤 **Brianna Gomez**
+*   👤 **Sofia Bacher**
+*   👤 **Mele Magdalena Merlo**
+*   👤 **Lara Maldonado**
+        
 
