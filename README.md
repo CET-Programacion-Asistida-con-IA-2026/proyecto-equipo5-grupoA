@@ -1,4 +1,4 @@
-## Grupo A/ - Equipo 5
+## Grupo A - Equipo 5
 _Curso de Programación Asistida con IA - Chicas en Tecnología_ 🚀
 
 # 🐾 EduZOO — Plan de Proyecto
