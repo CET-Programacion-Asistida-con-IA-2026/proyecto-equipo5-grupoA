@@ -18,6 +18,7 @@ formulario.addEventListener("submit", (e) => {
   mensajeExito.textContent =
     "✅ ¡Tu mensaje fue enviado correctamente!";
 
+
   // Limpia todos los campos
   formulario.reset();
 
@@ -28,4 +29,15 @@ formulario.addEventListener("submit", (e) => {
   setTimeout(() => {
     mensajeExito.textContent = "";
   }, 5000);
+  window.addEventListener("scroll", () => {
+  let posicion = window.scrollY;
+
+  if (posicion < 300) {
+    document.body.style.backgroundColor = "#AEE6FF";
+  } else if (posicion < 600) {
+    document.body.style.backgroundColor = "#FFF3A3";
+  } else {
+    document.body.style.backgroundColor = "#B8F5B1";
+  }
+});
 });
