@@ -1,4 +1,4 @@
-
+console.log("JavaScript conectado");
 // FORMULARIO DE COMENTARIOS
 const formulario = document.getElementById("formulario-comentario");
 const mensajeExito = document.getElementById("mensaje-exito");
