@@ -20,7 +20,7 @@ Por otro lado, los métodos de enseñanza tradicionales muchas veces no logran e
 ---
 
 ## 💡 Solución tecnológica
-**EduZOO** es una página web educativa orientada a chicos de entre 6 y 10 años que se encuentren transitando las primeras etapas de aprendizaje de la lectoescritura. 
+**EduZOO** es una página web educativa orientada a chicos de entre 6 y 10 años que se encuentren transitando las primeras etapas de aprendizaje de la lectoescritura. También puede ser utilizado por docentes y familias como herramienta de acompañamiento educativo.
 
 A través de una interfaz visual atractiva, amigable y basada en temáticas de animales, transformamos el aprendizaje en una actividad entretenida, accesible y autónoma. La plataforma ofrece juegos diseñados para fortalecer habilidades fundamentales como:
 *   Reconocimiento de letras y palabras.
