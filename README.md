@@ -59,9 +59,8 @@ A través de una interfaz visual atractiva, amigable y basada en temáticas de a
 ## 👥 Integrantes
 *   👤 **Tamara Ajmechet González**
 *   👤 **Agustina Villagra**
-*   👤 **Brianna Gomez**
 *   👤 **Sofia Bacher**
 *   👤 **Mele Magdalena Merlo**
-*   👤 **Lara Maldonado**
+*   👤 **Avril Valentina Saint-Ignan**
         
 
