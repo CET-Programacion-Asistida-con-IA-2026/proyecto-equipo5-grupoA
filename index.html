@@ -11,7 +11,6 @@
 
 <body>
 
-  <!-- ========== HEADER ========== -->
   <header>
     <div class="header-stars">
       <span>🐵</span><span>📚</span><span>📖</span><span>✏️</span><span>🎨</span>
@@ -30,7 +29,6 @@
     </nav>
   </header>
 
-  <!-- ========== HERO ========== -->
   <section class="hero">
     <div class="hero-content">
     
@@ -46,7 +44,6 @@
     </div>
   </section>
 
-  <!-- ========== SECCIÓN JUEGOS / ACTIVIDADES ========== -->
   <section id="juegos" class="section section-juegos">
     <div class="section-header">
       <span class="section-icon">🎮</span>
@@ -59,14 +56,14 @@
         <div class="card-emoji">🔤</div>
         <h3>Sopa de Letras</h3>
         <p>Encuentra palabras escondidas entre un montón de letras. ¡Es muy divertido!</p>
-        <button class="card-btn" onclick="mostrarMensaje('¡Sopa de Letras próximamente disponible! 🔤')">Jugar</button>
+        <button class="card-btn" id="btn-abrir-sopa">Jugar</button>
       </div>
 
       <div class="card card-yellow">
         <div class="card-emoji">🧩</div>
         <h3>Completa la Palabra</h3>
-        <p>¿Puedes adivinar qué letras faltan? Pon a prueba tu memoria.</p>
-        <button class="card-btn" onclick="mostrarMensaje('¡Completa la Palabra próximamente! 🧩')">Jugar</button>
+        <p>¿Puedes adivinar qué letras faltan? Pon a prueba tu memoria con la ortografía.</p>
+        <button class="card-btn" id="btn-abrir-completa">Jugar</button>
       </div>
 
       <div class="card card-green">
@@ -100,7 +97,25 @@
     </div>
   </section>
 
-  <!-- ========== SECCIÓN CENTROS EDUCATIVOS ========== -->
+<section id="sopa-de-letras-section" class="section">
+    <div class="section-header">
+      <span class="section-icon">🔤</span>
+      <h2>Sopa de Letras: Animales</h2>
+      <p>Haz clic y arrastra para encontrar a todos los animales escondidos.</p>
+    </div>
+    <div class="sopa-container">
+        <div id="grid-sopa" class="grid-sopa"></div>
+        
+        <div class="lista-palabras">
+            <h3>Encuentra estos animales:</h3>
+            <ul id="palabras-ul"></ul>
+            
+            <button id="reiniciar-btn" class="btn">Reiniciar Juego</button>
+            <button id="cerrar-sopa-btn" class="btn" style="background-color: #ff3c48; margin-top: 10px;">Cerrar Juego</button>
+        </div>
+    </div>
+  </section>
+
   <section id="centros" class="section section-centros">
     <div class="section-header">
       <span class="section-icon">🏫</span>
@@ -141,7 +156,6 @@
 
     </div>
 
-    <!-- ONG externa -->
     <div class="ong-banner">
       <span class="ong-icon">🌍</span>
       <div>
@@ -154,7 +168,6 @@
     </div>
   </section>
 
-  <!-- ========== SECCIÓN CONSEJOS ========== -->
   <section id="consejos" class="section section-consejos">
     <div class="section-header">
       <span class="section-icon">💡</span>
@@ -200,7 +213,6 @@
     </ul>
   </section>
 
-  <!-- ========== FORMULARIO DE COMENTARIOS ========== -->
   <section id="comentarios" class="section section-form">
     <div class="section-header">
       <span class="section-icon">✏️</span>
@@ -229,7 +241,6 @@
     </div>
   </section>
 
-  <!-- ========== FOOTER ========== -->
   <footer>
     <div class="footer-content">
       <div class="footer-logo">📚 EDUZOO</div>
@@ -244,7 +255,6 @@
     </div>
   </footer>
 
-  <!-- Modal de mensajes -->
   <div class="modal-overlay" id="modal-overlay">
     <div class="modal-box">
       <div class="modal-emoji">🎉</div>
