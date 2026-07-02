@@ -1,282 +1,379 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EDUZOO</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EDUZOO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
 
-  <header>
-    <div class="header-stars">
-      <span>🐵</span><span>📚</span><span>📖</span><span>✏️</span><span>🎨</span>
-    </div>
-    <div class="logo-area">
-      <div class="logo-icon">📚</div>
-      <h1 class="site-title">EDUZOO</h1>
-      <p class="site-subtitle">¡Aprender a leer y escribir es una aventura!</p>
-    </div>
-    <nav>
-      <a href="#juegos">🎮 Juegos</a>
-      <a href="#centros">🏫 Centros</a>
-      <a href="#videos">🎬 Videos</a>
-      <a href="#consejos">💡 Consejos</a>
-      <a href="#comentarios">✏️ Comentarios</a>
-    </nav>
-  </header>
+<header>
+<div class="header-stars">
+<span>🐵</span><span>📚</span><span>📖</span><span>✏️</span><span>🎨</span>
+</div>
+<div class="logo-area">
+<div class="logo-icon">📚</div>
+<h1 class="site-title">EDUZOO</h1>
+<p class="site-subtitle">¡Aprender a leer y escribir es una aventura!</p>
+</div>
+<nav>
+<a href="#juegos">🎮 Juegos</a>
+<a href="#centros">🏫 Centros</a>
+<a href="#videos">🎬 Videos</a>
+<a href="#consejos">💡 Consejos</a>
+<a href="#comentarios">✏️ Comentarios</a>
+</nav>
+</header>
 
-  <section class="hero">
-    <div class="hero-content">
-    
-      <h2>¡Bienvenido, pequeño lector! 🎉</h2>
-      <p>Aquí vas a jugar, aprender y descubrir el maravilloso mundo de las palabras. ¡Empecemos!</p>
-      <a href="#juegos" class="btn-hero">¡Quiero jugar! 🚀</a>
-    </div>
-    <div class="hero-mascot">
-      <div class="mascot-bubble">
-        <div class="mascot-face">🦉</div>
-        <div class="speech-bubble">¡Hola! Soy Lector, tu búho amigo. ¡Te enseñaré a leer!</div>
-      </div>
-    </div>
-  </section>
+<section class="hero">
+<div class="hero-content">
 
-  <section id="juegos" class="section section-juegos">
-    <div class="section-header">
-      <span class="section-icon">🎮</span>
-      <h2>Juegos y Actividades</h2>
-      <p>¡Aprender jugando es la mejor forma!</p>
-    </div>
-    <div class="cards-grid">
+<h2>¡Bienvenido, pequeño lector! 🎉</h2>
+<p>Aquí vas a jugar, aprender y descubrir el maravilloso mundo de las palabras. ¡Empecemos!</p>
+<a href="#juegos" class="btn-hero">¡Quiero jugar! 🚀</a>
+</div>
+<div class="hero-mascot">
+<div class="mascot-bubble">
+<div class="mascot-face">🦉</div>
+<div class="speech-bubble">¡Hola! Soy Lector, tu búho amigo. ¡Te enseñaré a leer!</div>
+</div>
+</div>
+</section>
 
-      <div class="card card-red">
-        <div class="card-emoji">🔤</div>
-        <h3>Sopa de Letras</h3>
-        <p>Encuentra palabras escondidas entre un montón de letras. ¡Es muy divertido!</p>
-        <button class="card-btn" id="btn-abrir-sopa">Jugar</button>
-      </div>
+<section id="juegos" class="section section-juegos">
+<div class="section-header">
+<span class="section-icon">🎮</span>
+<h2>Juegos y Actividades</h2>
+<p>¡Aprender jugando es la mejor forma!</p>
+</div>
+<div class="cards-grid">
 
-      <div class="card card-yellow">
-        <div class="card-emoji">🧩</div>
-        <h3>Completa la Palabra</h3>
-        <p>¿Puedes adivinar qué letras faltan? Pon a prueba tu memoria con la ortografía.</p>
-        <button class="card-btn" id="btn-abrir-completa">Jugar</button>
-      </div>
+<div class="card card-red">
+<div class="card-emoji">🔤</div>
+<h3>Sopa de Letras</h3>
+<p>Encuentra palabras escondidas entre un montón de letras. ¡Es muy divertido!</p>
+<button class="card-btn" id="btn-abrir-sopa">Jugar</button>
+</div>
 
-      <div class="card card-green">
-        <div class="card-emoji">🖼️</div>
-        <h3>Imagen y Palabra</h3>
-        <p>Une cada dibujo con su palabra correcta. ¡Aprende vocabulario nuevo!</p>
-        <button class="card-btn" onclick="mostrarMensaje('¡Imagen y Palabra próximamente! 🖼️')">Jugar</button>
-      </div>
+<div class="card card-yellow">
+<div class="card-emoji">🧩</div>
+<h3>Completa la Palabra</h3>
+<p>¿Puedes adivinar qué letras faltan? Pon a prueba tu memoria con la ortografía.</p>
+<button class="card-btn" id="btn-abrir-completa">Jugar</button>
+</div>
 
-      <div class="card card-blue">
-        <div class="card-emoji">✍️</div>
-        <h3>Traza las Letras</h3>
-        <p>Practica escribir el abecedario siguiendo los trazos con el dedo.</p>
-        <button class="card-btn" onclick="mostrarMensaje('¡Traza las Letras próximamente! ✍️')">Jugar</button>
-      </div>
+<div class="card card-green">
+  <div class="card-emoji">🖼️</div>
+  <h3>Imagen y Palabra</h3>
+  <p>Une cada dibujo con su palabra correcta. ¡Aprende vocabulario nuevo!</p>
+  <button class="card-btn" id="btn-abrir-imagen">Jugar</button>
+</div>
 
-      <div class="card card-purple">
-        <div class="card-emoji">🎵</div>
-        <h3>Canciones del Alfabeto</h3>
-        <p>Aprende las letras cantando. La música ayuda a recordar mejor.</p>
-        <button class="card-btn" onclick="mostrarMensaje('¡Canciones próximamente! 🎵')">Cantar</button>
-      </div>
+<div class="card card-blue">
+<div class="card-emoji">✍️</div>
+<h3>Traza las Letras</h3>
+<p>Practica escribir el abecedario siguiendo los trazos con el dedo.</p>
+<button class="card-btn" onclick="mostrarMensaje('¡Traza las Letras próximamente! ✍️')">Jugar</button>
+</div>
 
-      <div class="card card-orange">
-        <div class="card-emoji">🎲</div>
-        <h3>Ruleta de Sílabas</h3>
-        <p>Gira la ruleta y forma palabras con las sílabas que aparecen. ¡A ver quién forma más!</p>
-        <button class="card-btn" onclick="mostrarMensaje('¡Ruleta de Sílabas próximamente! 🎲')">Girar</button>
-      </div>
+<div class="card card-purple">
+<div class="card-emoji">🎵</div>
+<h3>Canciones del Alfabeto</h3>
+<p>Aprende las letras cantando. La música ayuda a recordar mejor.</p>
+<button class="card-btn" onclick="mostrarMensaje('¡Canciones próximamente! 🎵')">Cantar</button>
+</div>
 
-    </div>
-  </section>
+<div class="card card-orange">
+<div class="card-emoji">🎲</div>
+<h3>Ruleta de Sílabas</h3>
+<p>Gira la ruleta y forma palabras con las sílabas que aparecen. ¡A ver quién forma más!</p>
+ <button class="card-btn" id="btn-abrir-ruleta">Girar</button>
+
+</div>
+
+</div>
+</section>
 
 <section id="sopa-de-letras-section" class="section">
-    <div class="section-header">
-      <span class="section-icon">🔤</span>
-      <h2>Sopa de Letras: Animales</h2>
-      <p>Haz clic y arrastra para encontrar a todos los animales escondidos.</p>
-    </div>
-    <div class="sopa-container">
-        <div id="grid-sopa" class="grid-sopa"></div>
-        
-        <div class="lista-palabras">
-            <h3>Encuentra estos animales:</h3>
-            <ul id="palabras-ul"></ul>
-            
-            <button id="reiniciar-btn" class="btn">Reiniciar Juego</button>
-            <button id="cerrar-sopa-btn" class="btn" style="background-color: #ff3c48; margin-top: 10px;">Cerrar Juego</button>
-        </div>
-    </div>
-  </section>
+<div class="section-header">
+<span class="section-icon">🔤</span>
+<h2>Sopa de Letras: Animales</h2>
+<p>Haz clic y arrastra para encontrar a todos los animales escondidos.</p>
+</div>
+<div class="sopa-container">
+<div id="grid-sopa" class="grid-sopa"></div>
+
+<div class="lista-palabras">
+<h3>Encuentra estos animales:</h3>
+<ul id="palabras-ul"></ul>
+
+<button id="reiniciar-btn" class="btn">Reiniciar Juego</button>
+<button id="cerrar-sopa-btn" class="btn" style="background-color: #ff3c48; margin-top: 10px;">Cerrar Juego</button>
+</div>
+</div>
+</section>
 <section id="completa-section" class="section">
-    <div class="completa-container">
-        <h2>🧩 Completa la Palabra</h2>
-        <p style="margin-bottom: 20px; color: #666;">¡Cuidado con las trampas de ortografía! Elige la letra correcta para completar la palabra.</p>
-        
-        <div id="emoji-display" class="emoji-grande"></div>
-        <div id="palabra-display" class="palabra-incompleta"></div>
-        
-        <div id="opciones-container" class="opciones"></div>
-        <div id="mensaje-feedback" class="feedback"></div>
-        
-        <button id="btn-cerrar-completa" class="btn-hero" style="background: var(--rojo); padding: 10px 20px; font-size: 1rem; margin-top: 30px;">Cerrar Juego</button>
-    </div>
-  </section>
+<div class="completa-container">
+<h2>🧩 Completa la Palabra</h2>
+<p style="margin-bottom: 20px; color: #666;">¡Cuidado con las trampas de ortografía! Elige la letra correcta para completar la palabra.</p>
 
-  <section id="centros" class="section section-centros">
-    <div class="section-header">
-      <span class="section-icon">🏫</span>
-      <h2>Centros Educativos</h2>
-      <p>Lugares especiales donde los niños aprenden a leer y escribir</p>
-    </div>
-    <div class="centros-grid">
+<div id="emoji-display" class="emoji-grande"></div>
+<div id="palabra-display" class="palabra-incompleta"></div>
 
-      <div class="centro-card">
-        <div class="centro-img">🏫</div>
-        <div class="centro-info">
-          <h3>Centro educativo "Félix F. Bernasconi"</h3>
-          <p>📍 Buenos Aires, Argentina</p>
-          <p>Un instituto hallado en Parque Patricios, que incluye un nivel inicial de jardín de infantes de carácter integral y público, antiguamente prestigiado por su contención afectiva, social y educativa desde la primera infancia.</p>
-          <span class="badge"> <a href="https://buenosaires.gob.ar/areas/educacion/escuelas/escuelas/primaria/bernasconi/exp_esc1.htm">Nivel Inicial y Primario</a> </span>
-        </div>
-      </div>
+<div id="opciones-container" class="opciones"></div>
+<div id="mensaje-feedback" class="feedback"></div>
 
-      <div class="centro-card">
-        <div class="centro-img">📖</div>
-        <div class="centro-info">
-          <h3>Biblioteca Infantil "Sala infantil María Elena Walsh-Biblioteca del Congreso"</h3>
-          <p>📍 Buenos Aires, Argentina</p>
-          <p>La sala infantil María Elena Walsh es un espacio dedicado para los niños y niñas de 3 a 12 años de edad.</p>
-          <span class="badge"><a href="https://bcn.gob.ar/salas-y-horarios/sala-infantil-maria-elena-walsh">Talleres gratuitos</a></span>
-        </div>
-      </div>
-
-      <div class="centro-card">
-        <div class="centro-img">🎨</div>
-        <div class="centro-info">
-          <h3>Centro Cultural "iiUpiiii - Usina del Arte"</h3>
-          <p>📍 Buenos Aires, Argentina</p>
-          <p>El primer espacio cultural para la primera infancia en CABA, que tiene como objetivo potenciar y estimular la sensorialidad, curiosidad, la sorpresa y el juego para niños, con mecánicas seguras, con texturas y colores para experimentar.</p>
-          <span class="badge"><a href="https://buenosaires.gob.ar/gcaba_historico/cultura/usina-del-arte/espacio-iupiiiii">Arte y cultura </a></span>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="ong-banner">
-      <span class="ong-icon">🌍</span>
-      <div>
-        <h3>¿Sabías que muchos niños no pueden acceder a la educación?</h3>
-        <p>Conocé el trabajo de organizaciones que trabajan por la alfabetización en todo el mundo.</p>
-      </div>
-      <a href="https://www.unicef.org/es/educacion" target="_blank" rel="noopener noreferrer" class="ong-btn">
-        🔗 Visitar UNICEF Educación
-      </a>
-    </div>
-  </section>
-
-  <section id="consejos" class="section section-consejos">
-    <div class="section-header">
-      <span class="section-icon">💡</span>
-      <h2>Consejos para Aprender a Leer y Escribir</h2>
-      <p>¡Estos trucos te van a ayudar un montón!</p>
-    </div>
-    <ul class="consejos-lista">
-      <li>
-        <span class="consejo-num">1</span>
-        <div>
-          <strong>📚 Leé todos los días, aunque sea un ratito</strong>
-          <p>Leer 10 o 15 minutos por día mejora mucho tu vocabulario y tu comprensión. ¡Podés empezar con cuentos cortitos!</p>
-        </div>
-      </li>
-      <li>
-        <span class="consejo-num">2</span>
-        <div>
-          <strong>✏️ Practicá la escritura en papel</strong>
-          <p>Escribir a mano ayuda al cerebro a recordar las letras. Llevá un cuaderno y anotá palabras nuevas cada día.</p>
-        </div>
-      </li>
-      <li>
-        <span class="consejo-num">3</span>
-        <div>
-          <strong>🎵 Usá canciones y rimas para recordar</strong>
-          <p>Las canciones y los trabalenguas hacen que aprender las letras y los sonidos sea mucho más fácil y divertido.</p>
-        </div>
-      </li>
-      <li>
-        <span class="consejo-num">4</span>
-        <div>
-          <strong>🖼️ Asociá palabras con imágenes</strong>
-          <p>Cuando aprendas una palabra nueva, dibujá lo que significa. ¡La imagen te va a ayudar a no olvidarla!</p>
-        </div>
-      </li>
-      <li>
-        <span class="consejo-num">5</span>
-        <div>
-          <strong>🤝 Pedí ayuda cuando no entendés algo</strong>
-          <p>No tengas miedo de preguntar a tu maestra, papá o mamá cuando una palabra o letra te resulta difícil. ¡Preguntar es aprender!</p>
-        </div>
-      </li>
-    </ul>
-  </section>
-
-  <section id="comentarios" class="section section-form">
-    <div class="section-header">
-      <span class="section-icon">✏️</span>
-      <h2>¡Dejá tu Mensaje!</h2>
-      <p>Contanos cómo te llamas y qué pensás del sitio 😊</p>
-    </div>
-    <div class="form-container">
-      <div class="form-mascot">🦉</div>
-      <form id="formulario-comentario" novalidate>
-        <div class="form-group">
-          <label for="nombre">¿Cómo te llamás? 👦👧</label>
-          <input type="text" id="nombre" name="nombre" placeholder="Escribí tu nombre aquí..." maxlength="30" />
-          <span class="error-msg" id="error-nombre"></span>
-        </div>
-        <div class="form-group">
-          <label for="comentario">¿Qué querés decirnos? 💬</label>
-          <textarea id="comentario" name="comentario" rows="4" placeholder="Escribí tu comentario aquí..." maxlength="200"></textarea>
-          <span class="char-count" id="char-count">0 / 200 caracteres</span>
-          <span class="error-msg" id="error-comentario"></span>
-        </div>
-        <button type="submit" class="btn-submit" id="btn-enviar">
-          ¡Enviar mi mensaje! 🚀
-        </button>
-      </form>
-      <div class="mensaje-exito" id="mensaje-exito"></div>
-    </div>
-  </section>
-
-  <footer>
-    <div class="footer-content">
-      <div class="footer-logo">📚 EDUZOO</div>
-      <p>Hecho con ❤️ para todos los pequeños lectores del mundo</p>
-      <div class="footer-links">
-        <a href="#juegos">🎮 Juegos</a>
-        <a href="#centros">🏫 Centros</a>
-        <a href="#videos">🎬 Videos</a>
-        <a href="https://www.unicef.org/es/educacion" target="_blank" rel="noopener noreferrer">🌍 UNICEF</a>
-      </div>
-      <p class="footer-copy">© 2025 EDUZOO · Todos los derechos reservados</p>
-    </div>
-  </footer>
-
-  <div class="modal-overlay" id="modal-overlay">
-    <div class="modal-box">
-      <div class="modal-emoji">🎉</div>
-      <p id="modal-texto"></p>
-      <button onclick="cerrarModal()" class="modal-btn">¡Entendido!</button>
-    </div>
+<button id="btn-cerrar-completa" class="btn-hero" style="background: var(--rojo); padding: 10px 20px; font-size: 1rem; margin-top: 30px;">Cerrar Juego</button>
+</div>
+</section>
+<section id="ruleta-section" class="section">
+  <div class="section-header">
+    <span class="section-icon">🎲</span>
+    <h2>Ruleta de Sílabas</h2>
+    <p>¡Girá la ruleta y formá palabras con la sílaba que te toque!</p>
   </div>
 
-  <script src="script.js"></script>
+  <div class="ruleta-container">
+    <div class="ruleta-contador">
+      <span class="contador-numero" id="contador-palabras">0</span>
+      <span class="contador-texto">palabras formadas</span>
+    </div>
+
+    <div class="ruleta-wrapper">
+      <div class="ruleta-puntero">🔻</div>
+      <div class="ruleta-rueda" id="ruleta-rueda">
+        <svg id="svg-ruleta" viewBox="0 0 300 300"></svg>
+      </div>
+    </div>
+
+    <button id="btn-girar" class="btn-hero">🎯 ¡Girar la Ruleta!</button>
+
+    <div class="silaba-resultado" id="silaba-resultado">
+      <p>Te tocó la sílaba: <span id="silaba-actual">--</span></p>
+      <div class="form-palabra">
+        <input type="text" id="input-palabra" placeholder="Escribí una palabra..." maxlength="20" autocomplete="off" />
+        <button id="btn-comprobar" class="btn-opcion btn-opcion-chico">Comprobar ✅</button>
+      </div>
+      <span class="feedback-ruleta" id="feedback-ruleta"></span>
+    </div>
+
+    <div class="lista-palabras-formadas">
+      <h3>Tus palabras 📝</h3>
+      <ul id="palabras-formadas-ul"></ul>
+    </div>
+
+    <button id="btn-cerrar-ruleta" class="btn-hero btn-cerrar-juego">Cerrar Juego</button>
+  </div>
+</section>
+<section id="centros" class="section section-centros">
+<div class="section-header">
+<span class="section-icon">🏫</span>
+<h2>Centros Educativos</h2>
+<p>Lugares especiales donde los niños aprenden a leer y escribir</p>
+</div>
+<div class="centros-grid">
+
+<div class="centro-card">
+<div class="centro-img">🏫</div>
+<div class="centro-info">
+<h3>Centro educativo "Félix F. Bernasconi"</h3>
+<p>📍 Buenos Aires, Argentina</p>
+<p>Un instituto hallado en Parque Patricios, que incluye un nivel inicial de jardín de infantes de carácter integral y público, antiguamente prestigiado por su contención afectiva, social y educativa desde la primera infancia.</p>
+<span class="badge"> <a href="https://buenosaires.gob.ar/areas/educacion/escuelas/escuelas/primaria/bernasconi/exp_esc1.htm">Nivel Inicial y Primario</a> </span>
+<span class="badge" style="background: var(--naranja);"><a href="https://www.google.com/maps/search/?api=1&query=Instituto+Felix+Fernando+Bernasconi+Catamarca+2100+Buenos+Aires" target="_blank" rel="noopener noreferrer">📍 Ver en mapa</a></span>
+</div>
+</div>
+
+<div class="centro-card">
+<div class="centro-img">📖</div>
+<div class="centro-info">
+<h3>Biblioteca Infantil "Sala infantil María Elena Walsh-Biblioteca del Congreso"</h3>
+<p>📍 Buenos Aires, Argentina</p>
+<p>La sala infantil María Elena Walsh es un espacio dedicado para los niños y niñas de 3 a 12 años de edad.</p>
+<span class="badge"><a href="https://bcn.gob.ar/salas-y-horarios/sala-infantil-maria-elena-walsh">Talleres gratuitos</a></span>
+<span class="badge" style="background: var(--naranja);"><a href="https://www.google.com/maps/search/?api=1&query=Biblioteca+del+Congreso+de+la+Nacion+Buenos+Aires" target="_blank" rel="noopener noreferrer">📍 Ver en mapa</a></span>
+</div>
+</div>
+
+<div class="centro-card">
+<div class="centro-img">🎨</div>
+<div class="centro-info">
+<h3>Centro Cultural "iiUpiiii - Usina del Arte"</h3>
+<p>📍 Buenos Aires, Argentina</p>
+<p>El primer espacio cultural para la primera infancia en CABA, que tiene como objetivo potenciar y estimular la sensorialidad, curiosidad, la sorpresa y el juego para niños, con mecánicas seguras, con texturas y colores para experimentar.</p>
+<span class="badge"><a href="https://buenosaires.gob.ar/gcaba_historico/cultura/usina-del-arte/espacio-iupiiiii">Arte y cultura </a></span>
+<span class="badge" style="background: var(--naranja);"><a href="https://www.google.com/maps/search/?api=1&query=Usina+del+Arte+Buenos+Aires" target="_blank" rel="noopener noreferrer">📍 Ver en mapa</a></span>
+</div>
+</div>
+
+</div>
+
+<div class="ong-banner">
+<span class="ong-icon">🌍</span>
+<div>
+<h3>¿Sabías que muchos niños no pueden acceder a la educación?</h3>
+<p>Conocé el trabajo de organizaciones que trabajan por la alfabetización en todo el mundo.</p>
+</div>
+<a href="https://www.unicef.org/es/educacion" target="_blank" rel="noopener noreferrer" class="ong-btn">
+🔗 Visitar UNICEF Educación
+</a>
+</div>
+</section>
+
+<section id="videos" class="section section-videos">
+<div class="section-header">
+<span class="section-icon">🎬</span>
+<h2>Videos para Aprender</h2>
+<p>Cantá y mirá estos videos para practicar letras y sonidos</p>
+</div>
+<div class="videos-grid">
+
+<div class="video-card">
+<a class="video-thumb" href="https://www.youtube.com/watch?v=4T74P6PK1Ao" target="_blank" rel="noopener noreferrer">
+<span class="video-emoji">🔤</span>
+<span class="play-btn">▶️</span>
+</a>
+<h3>Canción del Abecedario</h3>
+<p>Aprendé todas las letras de la A a la Z cantando junto a Lingokids.</p>
+<span class="duracion">⏱️ 3 min</span>
+</div>
+
+<div class="video-card">
+<a class="video-thumb" href="https://www.youtube.com/watch?v=OdGKb55gArA" target="_blank" rel="noopener noreferrer">
+<span class="video-emoji">🎶</span>
+<span class="play-btn">▶️</span>
+</a>
+<h3>Canciones del Abecedario (ChuChu TV)</h3>
+<p>Un video animado y pegadizo para repasar el abecedario completo.</p>
+<span class="duracion">⏱️ 4 min</span>
+</div>
+
+<div class="video-card">
+<a class="video-thumb" href="https://www.youtube.com/watch?v=FwoulzCrwDM" target="_blank" rel="noopener noreferrer">
+<span class="video-emoji">🅰️</span>
+<span class="play-btn">▶️</span>
+</a>
+<h3>Las Vocales</h3>
+<p>Un tren divertido para aprender la A, E, I, O, U con Bichikids.</p>
+<span class="duracion">⏱️ 3 min</span>
+</div>
+
+</div>
+</section>
+
+<section id="consejos" class="section section-consejos">
+<div class="section-header">
+<span class="section-icon">💡</span>
+<h2>Consejos para Aprender a Leer y Escribir</h2>
+<p>¡Estos trucos te van a ayudar un montón!</p>
+</div>
+<ul class="consejos-lista">
+<li>
+<span class="consejo-num">1</span>
+<div>
+<strong>📚 Leé todos los días, aunque sea un ratito</strong>
+<p>Leer 10 o 15 minutos por día mejora mucho tu vocabulario y tu comprensión. ¡Podés empezar con cuentos cortitos!</p>
+</div>
+</li>
+<li>
+<span class="consejo-num">2</span>
+<div>
+<strong>✏️ Practicá la escritura en papel</strong>
+<p>Escribir a mano ayuda al cerebro a recordar las letras. Llevá un cuaderno y anotá palabras nuevas cada día.</p>
+</div>
+</li>
+<li>
+<span class="consejo-num">3</span>
+<div>
+<strong>🎵 Usá canciones y rimas para recordar</strong>
+<p>Las canciones y los trabalenguas hacen que aprender las letras y los sonidos sea mucho más fácil y divertido.</p>
+</div>
+</li>
+<li>
+<span class="consejo-num">4</span>
+<div>
+<strong>🖼️ Asociá palabras con imágenes</strong>
+<p>Cuando aprendas una palabra nueva, dibujá lo que significa. ¡La imagen te va a ayudar a no olvidarla!</p>
+</div>
+</li>
+<li>
+<span class="consejo-num">5</span>
+<div>
+<strong>🤝 Pedí ayuda cuando no entendés algo</strong>
+<p>No tengas miedo de preguntar a tu maestra, papá o mamá cuando una palabra o letra te resulta difícil. ¡Preguntar es aprender!</p>
+</div>
+</li>
+</ul>
+</section>
+
+<section id="comentarios" class="section section-form">
+<div class="section-header">
+<span class="section-icon">✏️</span>
+<h2>¡Dejá tu Mensaje!</h2>
+<p>Contanos cómo te llamas y qué pensás del sitio 😊</p>
+</div>
+<div class="form-container">
+<div class="form-mascot">🦉</div>
+<form id="formulario-comentario" novalidate>
+<div class="form-group">
+<label for="nombre">¿Cómo te llamás? 👦👧</label>
+<input type="text" id="nombre" name="nombre" placeholder="Escribí tu nombre aquí..." maxlength="30" />
+<span class="error-msg" id="error-nombre"></span>
+</div>
+<div class="form-group">
+<label for="comentario">¿Qué querés decirnos? 💬</label>
+<textarea id="comentario" name="comentario" rows="4" placeholder="Escribí tu comentario aquí..." maxlength="200"></textarea>
+<span class="char-count" id="char-count">0 / 200 caracteres</span>
+<span class="error-msg" id="error-comentario"></span>
+</div>
+<button type="submit" class="btn-submit" id="btn-enviar">
+¡Enviar mi mensaje! 🚀
+</button>
+</form>
+<div class="mensaje-exito" id="mensaje-exito"></div>
+</div>
+</section>
+
+<footer>
+<div class="footer-content">
+<div class="footer-logo">📚 EDUZOO</div>
+<p>Hecho con ❤️ para todos los pequeños lectores del mundo</p>
+<div class="footer-links">
+<a href="#juegos">🎮 Juegos</a>
+<a href="#centros">🏫 Centros</a>
+<a href="#videos">🎬 Videos</a>
+<a href="https://www.unicef.org/es/educacion" target="_blank" rel="noopener noreferrer">🌍 UNICEF</a>
+</div>
+<p class="footer-copy">©️ 2025 EDUZOO · Todos los derechos reservados</p>
+</div>
+</footer>
+
+<div class="modal-overlay" id="modal-overlay">
+<div class="modal-box">
+<div class="modal-emoji">🎉</div>
+<p id="modal-texto"></p>
+<button onclick="cerrarModal()" class="modal-btn">¡Entendido!</button>
+</div>
+</div>
+
+<section id="imagen-section" class="section">
+  <div class="completa-container" style="border-color: var(--verde);">
+      <h2>🖼️ Imagen y Palabra</h2>
+      <p style="margin: 20px 0; color: #666;">¡Mira el dibujo con atención y elige la palabra correcta!</p>
+     
+      <div id="img-display" class="emoji-grande"></div>
+     
+      <div id="img-opciones-container" class="opciones"></div>
+      <div id="img-mensaje-feedback" class="feedback"></div>
+     
+      <button id="btn-cerrar-imagen" class="btn-hero" style="background: var(--rojo); padding: 10px 20px; font-size: 1rem; margin-top: 30px;">Cerrar Juego</button>
+  </div>
+</section>
+
+<script src="script.js"></script>
 </body>
 </html>
