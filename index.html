@@ -77,14 +77,15 @@
 <div class="card-emoji">✍️</div>
 <h3>Traza las Letras</h3>
 <p>Practica escribir el abecedario siguiendo los trazos con el dedo.</p>
-<button class="card-btn" onclick="mostrarMensaje('¡Traza las Letras próximamente! ✍️')">Jugar</button>
+<button class="card-btn" id="btn-abrir-traza">Jugar</button>
 </div>
+
 
 <div class="card card-purple">
 <div class="card-emoji">🎵</div>
 <h3>Canciones del Alfabeto</h3>
 <p>Aprende las letras cantando. La música ayuda a recordar mejor.</p>
-<button class="card-btn" onclick="mostrarMensaje('¡Canciones próximamente! 🎵')">Cantar</button>
+<button class="card-btn" id="btn-abrir-canciones">Cantar</button>
 </div>
 
 <div class="card card-orange">
@@ -167,6 +168,31 @@
     </div>
 
     <button id="btn-cerrar-ruleta" class="btn-hero btn-cerrar-juego">Cerrar Juego</button>
+  </div>
+</section>
+<section id="canciones-section" class="section">
+  <div class="section-header">
+    <span class="section-icon">🎵</span>
+    <h2>Canciones del Alfabeto</h2>
+    <p>¡Cantá con Lector y aprendé cada letra!</p>
+  </div>
+
+  <div class="canciones-container">
+    <div class="mascot-cantor" id="mascot-cantor">🦉</div>
+
+    <div class="letra-grande" id="letra-actual">A</div>
+    <div class="emoji-verso" id="emoji-verso">🐜</div>
+    <div class="verso-cancion" id="verso-actual">¡A de Araña que sube y baja!</div>
+
+    <div class="progreso-alfabeto" id="progreso-alfabeto"></div>
+
+    <div class="controles-cancion">
+      <button id="btn-anterior-letra" class="btn-opcion btn-opcion-chico">⏮️</button>
+      <button id="btn-play-cancion" class="btn-opcion btn-opcion-chico btn-play">▶️ Cantar solo</button>
+      <button id="btn-siguiente-letra" class="btn-opcion btn-opcion-chico">⏭️</button>
+    </div>
+
+    <button id="btn-cerrar-canciones" class="btn-hero btn-cerrar-juego">Cerrar Juego</button>
   </div>
 </section>
 <section id="centros" class="section section-centros">
@@ -371,6 +397,29 @@
       <div id="img-mensaje-feedback" class="feedback"></div>
      
       <button id="btn-cerrar-imagen" class="btn-hero" style="background: var(--rojo); padding: 10px 20px; font-size: 1rem; margin-top: 30px;">Cerrar Juego</button>
+  </div>
+</section>
+<section id="traza-section" class="section">
+  <div class="completa-container" style="border-color: var(--azul); max-width: 600px;">
+      <h2>✍️ Traza las Letras</h2>
+      <p style="margin-bottom: 20px; color: #666;">Dibuja sobre la línea punteada para aprender a escribir.</p>
+
+      <div style="display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 10px;">
+          <span id="traza-emoji-display" class="emoji-grande" style="margin: 0; font-size: 3rem;"></span>
+          <h3 id="traza-palabra-ejemplo" style="font-family: var(--font-display); font-size: 2rem; color: var(--oscuro); margin: 0;"></h3>
+          <span id="traza-progreso" style="font-weight: bold; color: #888;"></span>
+      </div>
+
+      <canvas id="traza-canvas" width="300" height="300" style="background: #fdfdfd; border: 4px dashed #ccc; border-radius: 20px; touch-action: none; cursor: crosshair; margin: 0 auto; display: block; box-shadow: inset 0 0 15px rgba(0,0,0,0.05);"></canvas>
+
+      <div id="traza-mensaje-feedback" class="feedback" style="min-height: 30px; margin-top: 15px;"></div>
+
+      <div style="display: flex; justify-content: center; gap: 15px; margin-top: 10px;">
+          <button id="btn-borrar-trazo" class="btn-opcion btn-opcion-chico">Borrar 🧹</button>
+          <button id="btn-siguiente-traza" class="btn-opcion btn-opcion-chico" style="background: var(--verde); color: #fff; border-color: #3ba84e;">Siguiente ➡️</button>
+      </div>
+
+      <button id="btn-cerrar-traza" class="btn-hero btn-cerrar-juego" style="margin-top: 30px;">Cerrar Juego</button>
   </div>
 </section>
 

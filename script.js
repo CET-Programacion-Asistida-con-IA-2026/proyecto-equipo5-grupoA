@@ -653,3 +653,288 @@ document.addEventListener("DOMContentLoaded", () => {
         if (e.key === "Enter") comprobarPalabra();
     });
 });
+// ============================================
+// LÓGICA DEL JUEGO: CANCIONES DEL ALFABETO
+// ============================================
+document.addEventListener("DOMContentLoaded", () => {
+    const btnAbrirCanciones = document.getElementById("btn-abrir-canciones");
+    const seccionCanciones = document.getElementById("canciones-section");
+    const btnCerrarCanciones = document.getElementById("btn-cerrar-canciones");
+
+    if (!btnAbrirCanciones) return; // Si no estamos en index.html, no hace nada
+
+    const abecedario = [
+        { letra: "A", emoji: "🐜", verso: "¡A de Araña que sube y baja!" },
+        { letra: "B", emoji: "🐳", verso: "¡B de Ballena que nada en el mar!" },
+        { letra: "C", emoji: "🐱", verso: "¡C de Casa donde vive mi gato!" },
+        { letra: "D", emoji: "🐬", verso: "¡D de Delfín que salta feliz!" },
+        { letra: "E", emoji: "🐘", verso: "¡E de Elefante, grande y gris!" },
+        { letra: "F", emoji: "🌸", verso: "¡F de Flor que huele muy bien!" },
+        { letra: "G", emoji: "🐱", verso: "¡G de Gato que juega también!" },
+        { letra: "H", emoji: "🐜", verso: "¡H de Hormiga, chiquita y fuerte!" },
+        { letra: "I", emoji: "🏝️", verso: "¡I de Isla en medio del mar!" },
+        { letra: "J", emoji: "🦒", verso: "¡J de Jirafa que mira hacia arriba!" },
+        { letra: "K", emoji: "🪁", verso: "¡K de Koala que duerme en el árbol!" },
+        { letra: "L", emoji: "🦁", verso: "¡L de León, el rey de la selva!" },
+        { letra: "M", emoji: "🐒", verso: "¡M de Mono que salta de rama en rama!" },
+        { letra: "N", emoji: "☁️", verso: "¡N de Nube blanca y suave!" },
+        { letra: "Ñ", emoji: "🦤", verso: "¡Ñ de Ñandú que corre veloz!" },
+        { letra: "O", emoji: "🐻", verso: "¡O de Oso que come miel!" },
+        { letra: "P", emoji: "🐧", verso: "¡P de Pingüino que camina despacito!" },
+        { letra: "Q", emoji: "🧀", verso: "¡Q de Queso amarillito!" },
+        { letra: "R", emoji: "🐸", verso: "¡R de Rana que salta al agua!" },
+        { letra: "S", emoji: "🐍", verso: "¡S de Serpiente que se desliza!" },
+        { letra: "T", emoji: "🐯", verso: "¡T de Tigre con rayas fuertes!" },
+        { letra: "U", emoji: "🍇", verso: "¡U de Uva, dulce y morada!" },
+        { letra: "V", emoji: "🐄", verso: "¡V de Vaca que dice muuu!" },
+        { letra: "W", emoji: "🎡", verso: "¡W de Wafle, riquísimo!" },
+        { letra: "X", emoji: "🎷", verso: "¡X de Xilófono que suena así!" },
+        { letra: "Y", emoji: "🌿", verso: "¡Y de Yuyo que crece en el jardín!" },
+        { letra: "Z", emoji: "🦓", verso: "¡Z de Zorro, astuto y veloz!" }
+    ];
+
+    let indiceLetra = 0;
+    let reproduciendo = false;
+    let intervaloCancion = null;
+
+    const letraDOM = document.getElementById("letra-actual");
+    const emojiDOM = document.getElementById("emoji-verso");
+    const versoDOM = document.getElementById("verso-actual");
+    const progresoDOM = document.getElementById("progreso-alfabeto");
+    const btnAnterior = document.getElementById("btn-anterior-letra");
+    const btnSiguiente = document.getElementById("btn-siguiente-letra");
+    const btnPlay = document.getElementById("btn-play-cancion");
+
+    // Evento para ABRIR el juego
+    btnAbrirCanciones.addEventListener("click", () => {
+        seccionCanciones.classList.add("activo");
+        construirProgreso();
+        mostrarLetra(0);
+        seccionCanciones.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Evento para CERRAR el juego
+    btnCerrarCanciones.addEventListener("click", () => {
+        detenerCancion();
+        seccionCanciones.classList.remove("activo");
+        document.getElementById("juegos").scrollIntoView({ behavior: 'smooth' });
+    });
+
+    function construirProgreso() {
+        progresoDOM.innerHTML = "";
+        abecedario.forEach((item) => {
+            const span = document.createElement("span");
+            span.textContent = item.letra;
+            progresoDOM.appendChild(span);
+        });
+    }
+
+    function mostrarLetra(i) {
+        indiceLetra = ((i % abecedario.length) + abecedario.length) % abecedario.length;
+        const item = abecedario[indiceLetra];
+
+        letraDOM.classList.remove("cambio");
+        void letraDOM.offsetWidth; // reinicia la animación
+        letraDOM.classList.add("cambio");
+
+        letraDOM.textContent = item.letra;
+        emojiDOM.textContent = item.emoji;
+        versoDOM.textContent = item.verso;
+
+        [...progresoDOM.children].forEach((span, idx) => {
+            span.classList.toggle("activa", idx === indiceLetra);
+        });
+        const activa = progresoDOM.children[indiceLetra];
+        if (activa) activa.scrollIntoView({ block: "nearest", inline: "center" });
+    }
+
+    function detenerCancion() {
+        reproduciendo = false;
+        clearInterval(intervaloCancion);
+        btnPlay.textContent = "▶️ Cantar solo";
+        btnPlay.classList.remove("reproduciendo");
+    }
+
+    function alternarReproduccion() {
+        if (reproduciendo) {
+            detenerCancion();
+            return;
+        }
+        reproduciendo = true;
+        btnPlay.textContent = "⏸️ Pausar";
+        btnPlay.classList.add("reproduciendo");
+        intervaloCancion = setInterval(() => {
+            if (indiceLetra >= abecedario.length - 1) {
+                detenerCancion();
+                return;
+            }
+            mostrarLetra(indiceLetra + 1);
+        }, 1800);
+    }
+
+    btnAnterior.addEventListener("click", () => { detenerCancion(); mostrarLetra(indiceLetra - 1); });
+    btnSiguiente.addEventListener("click", () => { detenerCancion(); mostrarLetra(indiceLetra + 1); });
+    btnPlay.addEventListener("click", alternarReproduccion);
+});
+// ============================================
+// LÓGICA DEL JUEGO: TRAZA LAS LETRAS
+// ============================================
+document.addEventListener("DOMContentLoaded", () => {
+    const trazaSection = document.getElementById("traza-section");
+    const btnAbrirTraza = document.getElementById("btn-abrir-traza");
+    const btnCerrarTraza = document.getElementById("btn-cerrar-traza");
+
+    if (!btnAbrirTraza) return;
+
+    // Evento para ABRIR el juego
+    btnAbrirTraza.addEventListener("click", () => {
+        trazaSection.classList.add("activo");
+        indiceTrazaActual = 0;
+        cargarLetraTraza();
+        trazaSection.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Evento para CERRAR el juego
+    btnCerrarTraza.addEventListener("click", () => {
+        trazaSection.classList.remove("activo");
+        document.getElementById("juegos").scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Banco de letras con una palabra y emoji de ejemplo para cada una
+    const letrasTraza = [
+        { letra: "A", palabra: "ARAÑA", emoji: "🕷️" },
+        { letra: "B", palabra: "BALLENA", emoji: "🐋" },
+        { letra: "C", palabra: "CASA", emoji: "🏠" },
+        { letra: "D", palabra: "DELFÍN", emoji: "🐬" },
+        { letra: "E", palabra: "ELEFANTE", emoji: "🐘" },
+        { letra: "L", palabra: "LEÓN", emoji: "🦁" },
+        { letra: "M", palabra: "MONO", emoji: "🐵" },
+        { letra: "O", palabra: "OSO", emoji: "🐻" },
+        { letra: "S", palabra: "SAPO", emoji: "🐸" },
+        { letra: "T", palabra: "TIGRE", emoji: "🐯" }
+    ];
+
+    let indiceTrazaActual = 0;
+    let dibujando = false;
+
+    const canvas = document.getElementById("traza-canvas");
+    const ctx = canvas.getContext("2d");
+    const emojiDOM = document.getElementById("traza-emoji-display");
+    const palabraDOM = document.getElementById("traza-palabra-ejemplo");
+    const progresoDOM = document.getElementById("traza-progreso");
+    const feedbackDOM = document.getElementById("traza-mensaje-feedback");
+    const btnBorrar = document.getElementById("btn-borrar-trazo");
+    const btnSiguiente = document.getElementById("btn-siguiente-traza");;
+
+    // Dibuja la letra guía punteada en el canvas
+    function dibujarGuia() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const actual = letrasTraza[indiceTrazaActual];
+        ctx.save();
+        ctx.font = "280px 'Baloo 2', sans-serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.strokeStyle = "#c9d6f5";
+        ctx.lineWidth = 3;
+        ctx.setLineDash([12, 10]);
+        ctx.strokeText(actual.letra, canvas.width / 2, canvas.height / 2 + 20);
+        ctx.restore();
+    }
+
+    function cargarLetraTraza() {
+        if (indiceTrazaActual >= letrasTraza.length) {
+            emojiDOM.textContent = "🏆";
+            palabraDOM.textContent = "¡COMPLETASTE EL ABECEDARIO!";
+            progresoDOM.textContent = "";
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            feedbackDOM.textContent = "¡Practicaste todas las letras! 🎉";
+            feedbackDOM.style.color = "var(--verde)";
+
+            btnSiguiente.textContent = "Jugar de nuevo 🔄";
+            btnSiguiente.removeEventListener("click", avanzarLetra);
+            btnSiguiente.addEventListener("click", reiniciarTraza);
+            return;
+        }
+
+        const actual = letrasTraza[indiceTrazaActual];
+        emojiDOM.textContent = actual.emoji;
+        palabraDOM.textContent = `${actual.letra} de ${actual.palabra}`;
+        progresoDOM.textContent = `(${indiceTrazaActual + 1} / ${letrasTraza.length})`;
+        feedbackDOM.textContent = "";
+        dibujarGuia();
+    }
+
+    function avanzarLetra() {
+        indiceTrazaActual++;
+        feedbackDOM.textContent = "¡Muy bien hecho! ✏️";
+        feedbackDOM.style.color = "var(--verde)";
+        setTimeout(() => cargarLetraTraza(), 600);
+    }
+
+    function reiniciarTraza() {
+        indiceTrazaActual = 0;
+        btnSiguiente.textContent = "Siguiente ➡️";
+        btnSiguiente.removeEventListener("click", reiniciarTraza);
+        btnSiguiente.addEventListener("click", avanzarLetra);
+        cargarLetraTraza();
+    }
+
+    btnSiguiente.addEventListener("click", avanzarLetra);
+
+    btnBorrar.addEventListener("click", () => {
+        dibujarGuia();
+    });
+
+    // Calcula la posición del trazo dentro del canvas (soporta mouse y touch)
+    function obtenerPosicion(e) {
+        const rect = canvas.getBoundingClientRect();
+        const escalaX = canvas.width / rect.width;
+        const escalaY = canvas.height / rect.height;
+        if (e.touches && e.touches.length > 0) {
+            return {
+                x: (e.touches[0].clientX - rect.left) * escalaX,
+                y: (e.touches[0].clientY - rect.top) * escalaY
+            };
+        }
+        return {
+            x: (e.clientX - rect.left) * escalaX,
+            y: (e.clientY - rect.top) * escalaY
+        };
+    }
+
+    function empezarTrazo(e) {
+        e.preventDefault();
+        dibujando = true;
+        const pos = obtenerPosicion(e);
+        ctx.beginPath();
+        ctx.moveTo(pos.x, pos.y);
+    }
+
+    function seguirTrazo(e) {
+        if (!dibujando) return;
+        e.preventDefault();
+        const pos = obtenerPosicion(e);
+        ctx.lineWidth = 10;
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+        ctx.strokeStyle = "#ff3c48";
+        ctx.setLineDash([]);
+        ctx.lineTo(pos.x, pos.y);
+        ctx.stroke();
+    }
+
+    function terminarTrazo() {
+        dibujando = false;
+    }
+
+    // Eventos de mouse
+    canvas.addEventListener("mousedown", empezarTrazo);
+    canvas.addEventListener("mousemove", seguirTrazo);
+    canvas.addEventListener("mouseup", terminarTrazo);
+    canvas.addEventListener("mouseleave", terminarTrazo);
+
+    // Eventos táctiles (celular/tablet)
+    canvas.addEventListener("touchstart", empezarTrazo);
+    canvas.addEventListener("touchmove", seguirTrazo);
+    canvas.addEventListener("touchend", terminarTrazo);
+});
