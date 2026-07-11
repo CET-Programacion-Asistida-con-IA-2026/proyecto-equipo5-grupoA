@@ -21,6 +21,20 @@ modalOverlay.addEventListener("click", (e) => {
     }
 });
 
+
+// Abre y cierra el panel lateral de comentarios
+window.abrirPanelComentarios = function() {
+    document.getElementById("panel-comentarios").classList.add("activo");
+    document.getElementById("panel-overlay").classList.add("activo");
+    document.body.style.overflow = "hidden"; // evita que el fondo se pueda scrollear
+};
+
+window.cerrarPanelComentarios = function() {
+    document.getElementById("panel-comentarios").classList.remove("activo");
+    document.getElementById("panel-overlay").classList.remove("activo");
+    document.body.style.overflow = ""; // restaura el scroll
+};
+
 // ====== SISTEMA DE LOGROS Y PROGRESO (localStorage) ========
 const JUEGOS_IDS = ["sopa", "completa", "imagen", "traza", "canciones", "ruleta", "comprension"];
 const LOGROS_KEY = "eduzoo_logros";
@@ -61,18 +75,20 @@ function guardarProgreso() {
 // Se llama desde cada juego cuando el chico lo completa
 function marcarJuegoCompletado(id) {
     if (!JUEGOS_IDS.includes(id)) return;
-    
-    const yaEstabaCompletado = progresoJuegos[id];
-    const completosAntes = Object.values(progresoJuegos).filter(Boolean).length;
 
+    const yaEstabaCompletado = progresoJuegos[id];
     progresoJuegos[id] = true;
-    
+
     guardarProgreso();
     actualizarPanelProgreso();
 
     if (yaEstabaCompletado) return;
 
-    if (completosAhora && !completosAntes) {
+    // ARREGLO: antes esta cuenta usaba una variable que nunca se calculaba (completosAhora)
+    const completados = Object.values(progresoJuegos).filter(Boolean).length;
+    const todosCompletados = completados === JUEGOS_IDS.length;
+
+    if (todosCompletados) {
         lanzarCelebracion();
         mostrarMensaje(`🎉 ¡Felicitaciones! Completaste los ${JUEGOS_IDS.length} juegos de EduZOO. ¡Sos un campeón de la lectura! 🏆`);
     } else {
@@ -143,6 +159,10 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ===== SONIDOS DE FEEDBACK ========
+const SONIDO_KEY = "eduzoo_sonido_activo";
+let sonidoActivo = true;
+const guardadoSonido = localStorage.getItem(SONIDO_KEY);
+if (guardadoSonido !== null) sonidoActivo = guardadoSonido === "true";
 let contextoAudioCompartido = null;
 
 function obtenerContextoAudio() {
@@ -181,6 +201,20 @@ function reproducirSonidoCorrecto() {
 
 function reproducirSonidoIncorrecto() {
     reproducirTono(180, 250, "sawtooth");
+}
+
+function hablarVerso(texto) {
+    if (!sonidoActivo) return; // respeta el botón de mute
+    if (!("speechSynthesis" in window)) return; // por si el navegador no lo soporta
+
+    window.speechSynthesis.cancel(); // corta la lectura anterior antes de arrancar la nueva
+
+    const utterance = new SpeechSynthesisUtterance(texto);
+    utterance.lang = "es-ES";  // podés probar "es-AR" o "es-MX" si querés otro acento
+    utterance.rate = 0.85;     // un poco más lento, para que se entienda bien
+    utterance.pitch = 1.3;     // vocecita más aguda y alegre
+
+    window.speechSynthesis.speak(utterance);
 }
 
 function actualizarBotonMute(boton) {
@@ -610,6 +644,7 @@ document.addEventListener("DOMContentLoaded", () => {
             palabraDOM.innerHTML = `${actual.prefijo}<span style="color: var(--verde);">${letra}</span>${actual.sufijo}`;
             feedbackDOM.textContent = "¡Excelente! 🎉";
             feedbackDOM.style.color = "var(--verde)";
+            reproducirSonidoCorrecto();
 
             setTimeout(() => {
                 indiceActual++;
@@ -620,6 +655,7 @@ document.addEventListener("DOMContentLoaded", () => {
             boton.classList.add("incorrecta");
             feedbackDOM.textContent = "¡Ups! Intenta de nuevo. 😅";
             feedbackDOM.style.color = "var(--rojo)";
+            reproducirSonidoIncorrecto();
 
             setTimeout(() => {
                 boton.classList.remove("incorrecta");
@@ -708,6 +744,7 @@ document.addEventListener("DOMContentLoaded", () => {
             boton.classList.add("correcta");
             feedbackDOM.textContent = "¡Excelente combinación! 🎯";
             feedbackDOM.style.color = "var(--verde)";
+            reproducirSonidoCorrecto();
            
             setTimeout(() => {
                 indiceImagenActual++;
@@ -717,6 +754,7 @@ document.addEventListener("DOMContentLoaded", () => {
             boton.classList.add("incorrecta");
             feedbackDOM.textContent = "¡Esa palabra no es la del dibujo! Intenta otra vez. 👀";
             feedbackDOM.style.color = "var(--rojo)";
+            reproducirSonidoIncorrecto();
            
             setTimeout(() => {
                 boton.classList.remove("incorrecta");
@@ -743,6 +781,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let girando = false;
     let contadorPalabras = 0;
     const palabrasUsadas = new Set();
+    const META_PALABRAS_RULETA = 5;
 
     const svgRuleta = document.getElementById("svg-ruleta");
     const ruedaDOM = document.getElementById("ruleta-rueda");
@@ -873,6 +912,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function mostrarFeedback(mensaje, ok) {
         feedbackDOM.textContent = mensaje;
         feedbackDOM.className = "feedback-ruleta " + (ok ? "ok" : "error");
+        if (ok) { reproducirSonidoCorrecto(); } else { reproducirSonidoIncorrecto(); }
     }
 
     btnGirar.addEventListener("click", girarRuleta);
@@ -891,39 +931,38 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!btnAbrirCanciones) return; // Si no estamos en index.html, no hace nada
 
     const abecedario = [
-        { letra: "A", emoji: "🐜", verso: "¡A de Araña que sube y baja!" },
-        { letra: "B", emoji: "🐳", verso: "¡B de Ballena que nada en el mar!" },
-        { letra: "C", emoji: "🐱", verso: "¡C de Casa donde vive mi gato!" },
-        { letra: "D", emoji: "🐬", verso: "¡D de Delfín que salta feliz!" },
-        { letra: "E", emoji: "🐘", verso: "¡E de Elefante, grande y gris!" },
-        { letra: "F", emoji: "🌸", verso: "¡F de Flor que huele muy bien!" },
-        { letra: "G", emoji: "🐱", verso: "¡G de Gato que juega también!" },
-        { letra: "H", emoji: "🐜", verso: "¡H de Hormiga, chiquita y fuerte!" },
-        { letra: "I", emoji: "🏝️", verso: "¡I de Isla en medio del mar!" },
-        { letra: "J", emoji: "🦒", verso: "¡J de Jirafa que mira hacia arriba!" },
-        { letra: "K", emoji: "🪁", verso: "¡K de Koala que duerme en el árbol!" },
-        { letra: "L", emoji: "🦁", verso: "¡L de León, el rey de la selva!" },
-        { letra: "M", emoji: "🐒", verso: "¡M de Mono que salta de rama en rama!" },
-        { letra: "N", emoji: "☁️", verso: "¡N de Nube blanca y suave!" },
-        { letra: "Ñ", emoji: "🦤", verso: "¡Ñ de Ñandú que corre veloz!" },
-        { letra: "O", emoji: "🐻", verso: "¡O de Oso que come miel!" },
-        { letra: "P", emoji: "🐧", verso: "¡P de Pingüino que camina despacito!" },
-        { letra: "Q", emoji: "🧀", verso: "¡Q de Queso amarillito!" },
-        { letra: "R", emoji: "🐸", verso: "¡R de Rana que salta al agua!" },
-        { letra: "S", emoji: "🐍", verso: "¡S de Serpiente que se desliza!" },
-        { letra: "T", emoji: "🐯", verso: "¡T de Tigre con rayas fuertes!" },
-        { letra: "U", emoji: "🍇", verso: "¡U de Uva, dulce y morada!" },
-        { letra: "V", emoji: "🐄", verso: "¡V de Vaca que dice muuu!" },
-        { letra: "W", emoji: "🎡", verso: "¡W de Wafle, riquísimo!" },
-        { letra: "X", emoji: "🎷", verso: "¡X de Xilófono que suena así!" },
-        { letra: "Y", emoji: "🌿", verso: "¡Y de Yuyo que crece en el jardín!" },
-        { letra: "Z", emoji: "🦓", verso: "¡Z de Zorro, astuto y veloz!" }
+        { letra: "A", emoji: "🕷️", verso: "¡Araña que sube y baja!" },
+        { letra: "B", emoji: "🐳", verso: "¡Ballena que nada en el mar!" },
+        { letra: "C", emoji: "🏠", verso: "¡Casa donde vive mi gato!" },
+        { letra: "D", emoji: "🐬", verso: "¡Delfín que salta feliz!" },
+        { letra: "E", emoji: "🐘", verso: "¡Elefante, grande y gris!" },
+        { letra: "F", emoji: "🌸", verso: "¡Flor que huele muy bien!" },
+        { letra: "G", emoji: "🐱", verso: "¡Gato que juega también!" },
+        { letra: "H", emoji: "🐜", verso: "¡Hormiga, chiquita y fuerte!" },
+        { letra: "I", emoji: "🏝️", verso: "¡Isla en medio del mar!" },
+        { letra: "J", emoji: "🦒", verso: "¡Jirafa que mira hacia arriba!" },
+        { letra: "K", emoji: "🐨", verso: "¡Koala que duerme en el árbol!" },
+        { letra: "L", emoji: "🦁", verso: "¡León, el rey de la selva!" },
+        { letra: "M", emoji: "🐒", verso: "¡Mono que salta de rama en rama!" },
+        { letra: "N", emoji: "☁️", verso: "¡Nube blanca y suave!" },
+        { letra: "Ñ", emoji: "🐦", verso: "¡Ñandú que corre veloz!" },
+        { letra: "O", emoji: "🐻", verso: "¡Oso que come miel!" },
+        { letra: "P", emoji: "🐧", verso: "¡Pingüino que camina despacito!" },
+        { letra: "Q", emoji: "🧀", verso: "¡Queso amarillito!" },
+        { letra: "R", emoji: "🐸", verso: "¡Rana que salta al agua!" },
+        { letra: "S", emoji: "🐍", verso: "¡Serpiente que se desliza!" },
+        { letra: "T", emoji: "🐯", verso: "¡Tigre con rayas fuertes!" },
+        { letra: "U", emoji: "🍇", verso: "¡Uva, dulce y morada!" },
+        { letra: "V", emoji: "🐄", verso: "¡Vaca que dice muuu!" },
+        { letra: "W", emoji: "🧇", verso: "¡Wafle, riquísimo!" },
+        { letra: "X", emoji: "🎶", verso: "¡Xilófon que suena así!" },
+        { letra: "Y", emoji: "🌿", verso: "¡Yuyo que crece en el jardín!" },
+        { letra: "Z", emoji: "🦊", verso: "¡Zorro, astuto y veloz!" }
     ];
 
     let indiceLetra = 0;
     let reproduciendo = false;
     let intervaloCancion = null;
-    const letrasVisitadas = new Set();
 
     const letraDOM = document.getElementById("letra-actual");
     const emojiDOM = document.getElementById("emoji-verso");
@@ -967,6 +1006,7 @@ document.addEventListener("DOMContentLoaded", () => {
         letraDOM.textContent = item.letra;
         emojiDOM.textContent = item.emoji;
         versoDOM.textContent = item.verso;
+        hablarVerso(`${item.letra} de ${item.verso.replace(/[¡!]/g, "")}`); // Lee el versito en voz alta
 
         [...progresoDOM.children].forEach((span, idx) => {
             span.classList.toggle("activa", idx === indiceLetra);
@@ -975,8 +1015,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (activa) activa.scrollIntoView({ block: "nearest", inline: "center" });
         
         // Si ya se visitaron las 27 letras del abecedario, se marca el juego como completado
-        letrasVisitadas.add(indiceLetra);
-        if (letrasVisitadas.size === abecedario.length) {
+        if (indiceLetra === abecedario.length - 1) {
             marcarJuegoCompletado("canciones");
         }
     }
@@ -1103,6 +1142,7 @@ document.addEventListener("DOMContentLoaded", () => {
         indiceTrazaActual++;
         feedbackDOM.textContent = "¡Muy bien hecho! ✏️";
         feedbackDOM.style.color = "var(--verde)";
+        reproducirSonidoCorrecto();
         setTimeout(() => cargarLetraTraza(), 600);
     }
 
