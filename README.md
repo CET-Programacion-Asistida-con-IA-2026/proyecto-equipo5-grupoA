@@ -53,7 +53,7 @@ A través de una interfaz visual atractiva, amigable y basada en temáticas de a
 | Entrega | Estado | Tareas Realizadas / Planificadas |
 | :--- | :---: | :--- |
 | **Entrega #1** | ✅ Completada | - Definición de la problemática.<br>- Investigación y relación con los ODS.<br>- Diseño de la propuesta tecnológica.<br>- Elaboración del *One Page Project*.<br>- Creación de la estructura inicial del sitio web. |
-| **Entrega #2 (Final)** | ✅ Completada | - Implementación de funcionalidades y juegos en JavaScript.<br>- Sistema de logros y puntajes.<br>- Mejoras visuales y de experiencia de usuario (UX/UI).<br>- Diseño responsive para distintos dispositivos.<br>- Corrección de errores, optimización y pruebas finales. |
+| **Entrega #2** | ✅ Completada | - Implementación de funcionalidades y juegos en JavaScript.<br>- Sistema de logros y puntajes.<br>- Mejoras visuales y de experiencia de usuario (UX/UI).<br>- Diseño responsive para distintos dispositivos.<br>- Corrección de errores, optimización y pruebas finales. |
 
 ---
 
