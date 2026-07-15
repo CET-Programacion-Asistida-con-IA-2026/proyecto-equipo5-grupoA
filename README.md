@@ -1,7 +1,7 @@
 ## Grupo A - Equipo 5
 _Curso de Programación Asistida con IA - Chicas en Tecnología_ 🚀
 
-# 🐾 EduZOO — Plan de Proyecto
+# 🐾 EduZOO
 
 ## 🎯 Problemática
 En los primeros grados de la escuela primaria, a muchos chicos les cuesta arrancar con la lectura, la escritura y la comprensión de textos básicos. Si estas dificultades no se resuelven a tiempo, terminan afectando todo su rendimiento escolar y agrandando la brecha en el aula.
@@ -25,15 +25,16 @@ Por otro lado, los métodos de enseñanza tradicionales muchas veces no logran e
 A través de una interfaz visual atractiva, amigable y basada en temáticas de animales, transformamos el aprendizaje en una actividad entretenida, accesible y autónoma. La plataforma ofrece juegos diseñados para fortalecer habilidades fundamentales como:
 *   Reconocimiento de letras y palabras.
 *   Asociación entre imágenes y vocabulario.
-*   Comprensión lectora y escritura básica.
+*   Escritura básica.
 *   Resolución de desafíos educativos.
 
 ---
 
 ## 🚀 Funcionalidades principales
 *   🎮 Juegos interactivos de alfabetización.
-*   📖 Actividades de lectura y comprensión.
-*   🔤 Desafíos de palabras y ordenar palabras.
+*   🔤 Juego de ordenar palabras.
+*   🔎 Sopa de letras.
+*   🖼️ Asociación entre imágenes y vocabulario.
 *   🏆 Sistema de logros y puntajes.
 *   📈 Seguimiento del progreso del usuario.
 
@@ -52,7 +53,7 @@ A través de una interfaz visual atractiva, amigable y basada en temáticas de a
 | Entrega | Estado | Tareas Realizadas / Planificadas |
 | :--- | :---: | :--- |
 | **Entrega #1** | ✅ Completada | - Definición de la problemática.<br>- Investigación y relación con los ODS.<br>- Diseño de la propuesta tecnológica.<br>- Elaboración del *One Page Project*.<br>- Creación de la estructura inicial del sitio web. |
-| **Entrega #2 (Final)** | ⏳ En progreso | - Implementación de funcionalidades y juegos en JavaScript.<br>- Mejoras visuales y de experiencia de usuario (UX/UI).<br>- Optimización del diseño responsive para tablets y compus.<br>- Incorporación de nuevas actividades interactivas.<br>- Corrección de errores y pruebas finales. |
+| **Entrega #2 (Final)** | ✅ Completada | - Implementación de funcionalidades y juegos en JavaScript.<br>- Sistema de logros y puntajes.<br>- Mejoras visuales y de experiencia de usuario (UX/UI).<br>- Diseño responsive para distintos dispositivos.<br>- Corrección de errores, optimización y pruebas finales. |
 
 ---
 
@@ -61,6 +62,3 @@ A través de una interfaz visual atractiva, amigable y basada en temáticas de a
 *   👤 **Agustina Villagra**
 *   👤 **Sofia Bacher**
 *   👤 **Mele Magdalena Merlo**
-*   👤 **Avril Valentina Saint-Ignan**
-        
-
