@@ -1,0 +1,729 @@
+From eec1d89d3c4bbca217ba7177ca21f5093036ec2b Mon Sep 17 00:00:00 2001
+From: Sofia Bacher <bacher.sofiaet36@gmail.com>
+Date: Wed, 14 Oct 2026 12:47:14 +0000
+Subject: [PATCH] =?UTF-8?q?Arreglar=20errores=20de=20la=20revisi=C3=B3n=20?=
+ =?UTF-8?q?(errores-eduzoo.txt)?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+- Progreso: 6 juegos reales, la celebración final ya se dispara.
+- Completá la Palabra: solo deshabilita sus propios botones.
+- Trazá las Letras: no se traba al reabrir, pide trazar antes de avanzar,
+  espera la fuente y corrige el mensaje final.
+- Canciones: se completa al recorrer las 27 letras.
+- Sopa: solo acepta selecciones en línea recta.
+- Ruleta: mínimo 3 letras y rechaza sílabas repetidas (mamamama).
+- Textos en voseo (incluidos los nombres de los juegos), BANANA,
+  Xilófono, texto de Bernasconi y © 2026.
+- CSS: reglas sin uso y duplicadas, sombras con el color de --morado.
+- Accesibilidad: Escape cierra los juegos, el fondo no scrollea,
+  aria-label en Canciones, badges en pestaña nueva, try/catch en sonido.
+- Menú: el resaltado de sección ya funciona (el link "#" lo rompía).
+- README actualizado con los 6 juegos y las medallas.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01HwgUuTo1ALMVmgdHiLX7Xs
+---
+ README.md  |  18 +++---
+ index.html |  46 ++++++++--------
+ script.js  | 159 ++++++++++++++++++++++++++++++++++++++++++++++-------
+ style.css  |  21 ++-----
+ 4 files changed, 176 insertions(+), 68 deletions(-)
+
+diff --git a/README.md b/README.md
+index 69eda53..67bb566 100644
+--- a/README.md
++++ b/README.md
+@@ -31,12 +31,16 @@ A través de una interfaz visual atractiva, amigable y basada en temáticas de a
+ ---
+ 
+ ## 🚀 Funcionalidades principales
+-*   🎮 Juegos interactivos de alfabetización.
+-*   🔤 Juego de ordenar palabras.
+-*   🔎 Sopa de letras.
+-*   🖼️ Asociación entre imágenes y vocabulario.
+-*   🏆 Sistema de logros y puntajes.
+-*   📈 Seguimiento del progreso del usuario.
++*   🎮 6 juegos interactivos de alfabetización:
++    *   🔎 **Sopa de Letras**: encontrar nombres de animales escondidos.
++    *   🧩 **Completá la Palabra**: elegir la letra que falta (B/V, S/Z/C, LL/Y, G/J).
++    *   🖼️ **Imagen y Palabra**: asociar cada dibujo con su palabra.
++    *   ✍️ **Trazá las Letras**: practicar la escritura siguiendo la letra guía.
++    *   🎵 **Canciones del Alfabeto**: recorrer las 27 letras con versos que se leen en voz alta.
++    *   🎲 **Ruleta de Sílabas**: girar la ruleta y formar palabras con la sílaba que toca.
++*   🏅 Sistema de medallas: cada juego completado suma una medalla.
++*   📈 Barra de progreso que se guarda en el navegador, con celebración al completar todos los juegos.
++*   🔊 Sonidos de acierto y error, con botón para silenciarlos.
+ 
+ ---
+ 
+@@ -53,7 +57,7 @@ A través de una interfaz visual atractiva, amigable y basada en temáticas de a
+ | Entrega | Estado | Tareas Realizadas / Planificadas |
+ | :--- | :---: | :--- |
+ | **Entrega #1** | ✅ Completada | - Definición de la problemática.<br>- Investigación y relación con los ODS.<br>- Diseño de la propuesta tecnológica.<br>- Elaboración del *One Page Project*.<br>- Creación de la estructura inicial del sitio web. |
+-| **Entrega #2** | ✅ Completada | - Implementación de funcionalidades y juegos en JavaScript.<br>- Sistema de logros y puntajes.<br>- Mejoras visuales y de experiencia de usuario (UX/UI).<br>- Diseño responsive para distintos dispositivos.<br>- Corrección de errores, optimización y pruebas finales. |
++| **Entrega #2** | ✅ Completada | - Implementación de funcionalidades y juegos en JavaScript.<br>- Sistema de logros y medallas.<br>- Mejoras visuales y de experiencia de usuario (UX/UI).<br>- Diseño responsive para distintos dispositivos.<br>- Corrección de errores, optimización y pruebas finales. |
+ 
+ ---
+ 
+diff --git a/index.html b/index.html
+index 8b198c0..1436736 100644
+--- a/index.html
++++ b/index.html
+@@ -36,7 +36,7 @@
+   <div class="progreso-info">
+     <span class="progreso-icono">🏆</span>
+     <div class="progreso-texto-wrap">
+-      <p id="progreso-texto">0 / 7 juegos completados</p>
++      <p id="progreso-texto">0 / 6 juegos completados</p>
+       <div class="progreso-barra-fondo">
+         <div id="progreso-barra" class="progreso-barra"></div>
+       </div>
+@@ -72,15 +72,15 @@
+       <span class="card-medalla" title="¡Juego completado!">🏅</span>
+       <div class="card-emoji">🔤</div>
+       <h3>Sopa de Letras</h3>
+-      <p>Encuentra palabras escondidas entre un montón de letras. ¡Es muy divertido!</p>
++      <p>Encontrá palabras escondidas entre un montón de letras. ¡Es muy divertido!</p>
+       <button class="card-btn" id="btn-abrir-sopa">Jugar</button>
+     </div>
+ 
+     <div class="card card-yellow" data-logro="completa">
+       <span class="card-medalla" title="¡Juego completado!">🏅</span>
+       <div class="card-emoji">🧩</div>
+-      <h3>Completa la Palabra</h3>
+-      <p>¿Puedes adivinar qué letras faltan? Pon a prueba tu memoria con la ortografía.</p>
++      <h3>Completá la Palabra</h3>
++      <p>¿Podés adivinar qué letras faltan? Poné a prueba tu memoria con la ortografía.</p>
+       <button class="card-btn" id="btn-abrir-completa">Jugar</button>
+     </div>
+ 
+@@ -88,15 +88,15 @@
+       <span class="card-medalla" title="¡Juego completado!">🏅</span>
+       <div class="card-emoji">🖼️</div>
+       <h3>Imagen y Palabra</h3>
+-      <p>Une cada dibujo con su palabra correcta. ¡Aprende vocabulario nuevo!</p>
++      <p>Uní cada dibujo con su palabra correcta. ¡Aprendé vocabulario nuevo!</p>
+       <button class="card-btn" id="btn-abrir-imagen">Jugar</button>
+     </div>
+ 
+     <div class="card card-blue" data-logro="traza">
+       <span class="card-medalla" title="¡Juego completado!">🏅</span>
+       <div class="card-emoji">✍️</div>
+-      <h3>Traza las Letras</h3>
+-      <p>Practica escribir el abecedario siguiendo los trazos con el dedo.</p>
++      <h3>Trazá las Letras</h3>
++      <p>Practicá escribir las letras siguiendo los trazos con el dedo.</p>
+       <button class="card-btn" id="btn-abrir-traza">Jugar</button>
+     </div>
+ 
+@@ -104,7 +104,7 @@
+       <span class="card-medalla" title="¡Juego completado!">🏅</span>
+       <div class="card-emoji">🎵</div>
+       <h3>Canciones del Alfabeto</h3>
+-      <p>Aprende las letras cantando. La música ayuda a recordar mejor.</p>
++      <p>Aprendé las letras cantando. La música ayuda a recordar mejor.</p>
+       <button class="card-btn" id="btn-abrir-canciones">Cantar</button>
+     </div>
+ 
+@@ -112,7 +112,7 @@
+       <span class="card-medalla" title="¡Juego completado!">🏅</span>
+       <div class="card-emoji">🎲</div>
+       <h3>Ruleta de Sílabas</h3>
+-      <p>Gira la ruleta y forma palabras con las sílabas que aparecen. ¡A ver quién forma más!</p>
++      <p>Girá la ruleta y formá palabras con las sílabas que aparecen. ¡A ver quién forma más!</p>
+       <button class="card-btn" id="btn-abrir-ruleta">Girar</button>
+     </div>
+   </div>
+@@ -125,7 +125,7 @@
+     </div>
+ 
+     <div class="lista-palabras">
+-      <h3>Encuentra estos animales:</h3>
++      <h3>Encontrá estos animales:</h3>
+       <ul id="palabras-ul"></ul>
+ 
+       <button id="reiniciar-btn" class="btn">Reiniciar Juego</button>
+@@ -136,8 +136,8 @@
+ 
+ <section id="completa-section" class="section">
+   <div class="completa-container">
+-    <h2>🧩 Completa la Palabra</h2>
+-    <p class="juego-instrucciones">¡Cuidado con las trampas de ortografía! Elige la letra correcta para completar la palabra.</p>
++    <h2>🧩 Completá la Palabra</h2>
++    <p class="juego-instrucciones">¡Cuidado con las trampas de ortografía! Elegí la letra correcta para completar la palabra.</p>
+ 
+     <div id="emoji-display" class="emoji-grande"></div>
+     <div id="palabra-display" class="palabra-incompleta"></div>
+@@ -152,7 +152,7 @@
+ <section id="imagen-section" class="section">
+   <div class="completa-container completa-container--verde">
+     <h2>🖼️ Imagen y Palabra</h2>
+-    <p class="juego-instrucciones">¡Mira el dibujo con atención y elige la palabra correcta!</p>
++    <p class="juego-instrucciones">¡Mirá el dibujo con atención y elegí la palabra correcta!</p>
+      
+     <div id="img-display" class="emoji-grande"></div>
+      
+@@ -165,13 +165,13 @@
+ 
+ <section id="traza-section" class="section">
+   <div class="completa-container completa-container--azul">
+-      <h2>✍️ Traza las Letras</h2>
+-      <p class="juego-instrucciones">Dibuja sobre la línea punteada para aprender a escribir.</p>
++      <h2>✍️ Trazá las Letras</h2>
++      <p class="juego-instrucciones">Dibujá sobre la línea punteada para aprender a escribir.</p>
+ 
+       <div class="traza-header">
+         <span id="traza-emoji-display" class="emoji-grande traza-emoji-chico"></span>
+         <h3 id="traza-palabra-ejemplo" class="traza-palabra"></h3>
+-        <span id="traza-progreso" class="traza-progreso-texto"</span>
++        <span id="traza-progreso" class="traza-progreso-texto"></span>
+       </div>
+ 
+       <canvas id="traza-canvas" width="300" height="300" class="traza-canvas-estilo"></canvas>
+@@ -202,9 +202,9 @@
+     <div class="progreso-alfabeto" id="progreso-alfabeto"></div>
+ 
+     <div class="controles-cancion">
+-      <button id="btn-anterior-letra" class="btn-opcion btn-opcion-chico">⏮️</button>
++      <button id="btn-anterior-letra" class="btn-opcion btn-opcion-chico" aria-label="Letra anterior" title="Letra anterior">⏮️</button>
+       <button id="btn-play-cancion" class="btn-opcion btn-opcion-chico btn-play">▶️ Cantar solo</button>
+-      <button id="btn-siguiente-letra" class="btn-opcion btn-opcion-chico">⏭️</button>
++      <button id="btn-siguiente-letra" class="btn-opcion btn-opcion-chico" aria-label="Letra siguiente" title="Letra siguiente">⏭️</button>
+     </div>
+ 
+     <button id="btn-cerrar-canciones" class="btn-hero btn-cerrar-juego">Cerrar Juego</button>
+@@ -264,8 +264,8 @@
+       <div class="centro-info">
+         <h3>Centro educativo "Félix F. Bernasconi"</h3>
+         <p>📍 Buenos Aires, Argentina</p>
+-        <p>Un instituto hallado en Parque Patricios, que incluye un nivel inicial de jardín de infantes de carácter integral y público, antiguamente prestigiado por su contención afectiva, social y educativa desde la primera infancia.</p>
+-        <span class="badge"> <a href="https://buenosaires.gob.ar/areas/educacion/escuelas/escuelas/primaria/bernasconi/exp_esc1.htm">Nivel Inicial y Primario</a> </span>
++        <p>Un instituto público ubicado en Parque Patricios, con jardín de infantes y escuela primaria. Desde hace muchos años es reconocido por acompañar a los chicos en lo afectivo, lo social y lo educativo desde la primera infancia.</p>
++        <span class="badge"> <a href="https://buenosaires.gob.ar/areas/educacion/escuelas/escuelas/primaria/bernasconi/exp_esc1.htm" target="_blank" rel="noopener noreferrer">Nivel Inicial y Primario</a> </span>
+         <span class="badge" style="background: var(--naranja);"><a href="https://www.google.com/maps/search/?api=1&query=Instituto+Felix+Fernando+Bernasconi+Catamarca+2100+Buenos+Aires" target="_blank" rel="noopener noreferrer">📍 Ver en mapa</a></span>
+       </div>
+     </div>
+@@ -276,7 +276,7 @@
+         <h3>Biblioteca Infantil "Sala infantil María Elena Walsh-Biblioteca del Congreso"</h3>
+         <p>📍 Buenos Aires, Argentina</p>
+         <p>La sala infantil María Elena Walsh es un espacio dedicado para los niños y niñas de 3 a 12 años de edad.</p>
+-        <span class="badge"><a href="https://bcn.gob.ar/salas-y-horarios/sala-infantil-maria-elena-walsh">Talleres gratuitos</a></span>
++        <span class="badge"><a href="https://bcn.gob.ar/salas-y-horarios/sala-infantil-maria-elena-walsh" target="_blank" rel="noopener noreferrer">Talleres gratuitos</a></span>
+         <span class="badge" style="background: var(--naranja);"><a href="https://www.google.com/maps/search/?api=1&query=Biblioteca+del+Congreso+de+la+Nacion+Buenos+Aires" target="_blank" rel="noopener noreferrer">📍 Ver en mapa</a></span>
+       </div>
+     </div>
+@@ -287,7 +287,7 @@
+         <h3>Centro Cultural "iiUpiiii - Usina del Arte"</h3>
+         <p>📍 Buenos Aires, Argentina</p>
+         <p>El primer espacio cultural para la primera infancia en CABA, que tiene como objetivo potenciar y estimular la sensorialidad, curiosidad, la sorpresa y el juego para niños, con mecánicas seguras, con texturas y colores para experimentar.</p>
+-        <span class="badge"><a href="https://buenosaires.gob.ar/gcaba_historico/cultura/usina-del-arte/espacio-iupiiiii">Arte y cultura </a></span>
++        <span class="badge"><a href="https://buenosaires.gob.ar/gcaba_historico/cultura/usina-del-arte/espacio-iupiiiii" target="_blank" rel="noopener noreferrer">Arte y cultura </a></span>
+         <span class="badge" style="background: var(--naranja);"><a href="https://www.google.com/maps/search/?api=1&query=Usina+del+Arte+Buenos+Aires" target="_blank" rel="noopener noreferrer">📍 Ver en mapa</a></span>
+       </div>
+     </div>
+@@ -440,7 +440,7 @@
+       <a href="#videos">🎬 Videos</a>
+       <a href="https://www.unicef.org/es/educacion" target="_blank" rel="noopener noreferrer">🌍 UNICEF</a>
+     </div>
+-    <p class="footer-copy">©️ 2025 EDUZOO · Todos los derechos reservados</p>
++    <p class="footer-copy">©️ 2026 EDUZOO · Todos los derechos reservados</p>
+     <button id="btn-reiniciar-progreso" class="footer-reset-btn">🔄 Reiniciar mi progreso</button>
+   </div>
+ </footer>
+diff --git a/script.js b/script.js
+index 5bd7197..797e477 100644
+--- a/script.js
++++ b/script.js
+@@ -35,15 +35,48 @@ window.cerrarPanelComentarios = function() {
+     document.body.style.overflow = ""; // restaura el scroll
+ };
+ 
++// ====== JUEGOS ABIERTOS: BLOQUEO DE SCROLL Y TECLA ESCAPE ========
++// Evita que la página de fondo se mueva mientras hay un juego abierto
++function bloquearScrollFondo() {
++    document.body.style.overflow = "hidden";
++}
++
++function desbloquearScrollFondo() {
++    document.body.style.overflow = "";
++}
++
++// Cada sección de juego con el botón que la cierra.
++// Escape "aprieta" ese botón, así cada juego hace su propia limpieza al cerrarse.
++const BOTONES_CERRAR_JUEGOS = {
++    "sopa-de-letras-section": "cerrar-sopa-btn",
++    "completa-section": "btn-cerrar-completa",
++    "imagen-section": "btn-cerrar-imagen",
++    "traza-section": "btn-cerrar-traza",
++    "canciones-section": "btn-cerrar-canciones",
++    "ruleta-section": "btn-cerrar-ruleta"
++};
++
++document.addEventListener("keydown", (e) => {
++    if (e.key !== "Escape") return;
++
++    Object.entries(BOTONES_CERRAR_JUEGOS).forEach(([idSeccion, idBoton]) => {
++        const seccion = document.getElementById(idSeccion);
++        const boton = document.getElementById(idBoton);
++        if (seccion && boton && seccion.classList.contains("activo")) {
++            boton.click();
++        }
++    });
++});
++
+ // ====== SISTEMA DE LOGROS Y PROGRESO (localStorage) ========
+-const JUEGOS_IDS = ["sopa", "completa", "imagen", "traza", "canciones", "ruleta", "comprension"];
++const JUEGOS_IDS = ["sopa", "completa", "imagen", "traza", "canciones", "ruleta"];
+ const LOGROS_KEY = "eduzoo_logros";
+ 
+ const NOMBRES_JUEGOS = {
+     sopa: "Sopa de Letras",
+-    completa: "Completa la Palabra",
++    completa: "Completá la Palabra",
+     imagen: "Imagen y Palabra",
+-    traza: "Traza las Letras",
++    traza: "Trazá las Letras",
+     canciones: "Canciones del Alfabeto",
+     ruleta: "Ruleta de Sílabas"
+ };
+@@ -85,7 +118,7 @@ function marcarJuegoCompletado(id) {
+     if (yaEstabaCompletado) return;
+ 
+     // ARREGLO: antes esta cuenta usaba una variable que nunca se calculaba (completosAhora)
+-    const completados = Object.values(progresoJuegos).filter(Boolean).length;
++    const completados = JUEGOS_IDS.filter(juego => progresoJuegos[juego]).length; // solo cuenta los juegos que existen
+     const todosCompletados = completados === JUEGOS_IDS.length;
+ 
+     if (todosCompletados) {
+@@ -116,7 +149,7 @@ function actualizarPanelProgreso() {
+ // Pinta el estado guardado apenas carga la página
+ document.addEventListener("DOMContentLoaded", actualizarPanelProgreso);
+ 
+-// Animación de celebración al terminar los 7 juegos
++// Animación de celebración al terminar todos los juegos
+ function lanzarCelebracion() {
+     const contenedor = document.createElement("div");
+     contenedor.className = "celebracion-contenedor";
+@@ -161,8 +194,12 @@ document.addEventListener("DOMContentLoaded", () => {
+ // ===== SONIDOS DE FEEDBACK ========
+ const SONIDO_KEY = "eduzoo_sonido_activo";
+ let sonidoActivo = true;
+-const guardadoSonido = localStorage.getItem(SONIDO_KEY);
+-if (guardadoSonido !== null) sonidoActivo = guardadoSonido === "true";
++try {
++    const guardadoSonido = localStorage.getItem(SONIDO_KEY);
++    if (guardadoSonido !== null) sonidoActivo = guardadoSonido === "true";
++} catch (e) {
++    console.warn("No se pudo leer la preferencia de sonido:", e);
++}
+ let contextoAudioCompartido = null;
+ 
+ function obtenerContextoAudio() {
+@@ -261,7 +298,9 @@ document.addEventListener("DOMContentLoaded", () => {
+     const linksNav = document.querySelectorAll("#nav-principal a");
+     
+     const secciones = Array.from(linksNav)
+-    .map(link => document.querySelector(link.getAttribute("href")))
++    .map(link => link.getAttribute("href"))
++    .filter(href => href && href.length > 1 && href.startsWith("#")) // ignora links como "#" (Comentarios), que no apuntan a una sección
++    .map(href => document.querySelector(href))
+     .filter(Boolean);
+ 
+     if (!secciones.length) return;
+@@ -398,12 +437,14 @@ document.addEventListener("DOMContentLoaded", () => {
+     // Evento para ABRIR el juego
+     btnAbrirSopa.addEventListener("click", () => {
+         seccionSopa.classList.add("activo"); // Muestra la sección
++        bloquearScrollFondo();
+         iniciarJuego(); // Genera un tablero nuevo y limpio al entrar
+     });
+ 
+     // Evento para CERRAR el juego
+     btnCerrarSopa.addEventListener("click", () => {
+         seccionSopa.classList.remove("activo"); // Vuelve a ocultar la sección
++        desbloquearScrollFondo();
+         document.getElementById("juegos").scrollIntoView({ behavior: 'smooth' }); // Te devuelve arriba a las tarjetas
+     });
+ 
+@@ -508,6 +549,13 @@ document.addEventListener("DOMContentLoaded", () => {
+         if (!seleccionando) return;
+         seleccionando = false;
+ 
++        // La selección tiene que ser una línea recta (horizontal o vertical) sin saltear celdas
++        if (!esLineaRecta(celdasSeleccionadas)) {
++            limpiarSeleccionActiva();
++            celdasSeleccionadas = [];
++            return;
++        }
++
+         // Formar la palabra con las letras seleccionadas
+         let palabraSeleccionada = celdasSeleccionadas.map(celda => celda.textContent).join("");
+         let palabraInvertida = palabraSeleccionada.split("").reverse().join("");
+@@ -539,6 +587,28 @@ document.addEventListener("DOMContentLoaded", () => {
+         celdasSeleccionadas = [];
+     }
+ 
++    // Devuelve true si las celdas forman una fila o columna de celdas contiguas
++    function esLineaRecta(celdas) {
++        if (celdas.length < 2) return true;
++
++        const filas = celdas.map(c => Number(c.dataset.fila));
++        const cols = celdas.map(c => Number(c.dataset.col));
++        const mismaFila = filas.every(f => f === filas[0]);
++        const mismaCol = cols.every(c => c === cols[0]);
++
++        if (!mismaFila && !mismaCol) return false;
++
++        // Las posiciones tienen que avanzar de a una, siempre para el mismo lado
++        const posiciones = mismaFila ? cols : filas;
++        const paso = posiciones[1] - posiciones[0];
++        if (paso !== 1 && paso !== -1) return false;
++
++        for (let i = 1; i < posiciones.length; i++) {
++            if (posiciones[i] - posiciones[i - 1] !== paso) return false;
++        }
++        return true;
++    }
++
+     function agregarCeldaASeleccion(celdaDOM) {
+         if (!celdasSeleccionadas.includes(celdaDOM)) {
+             celdaDOM.classList.add("seleccionada");
+@@ -572,6 +642,7 @@ document.addEventListener("DOMContentLoaded", () => {
+     // Evento para ABRIR el juego
+     btnAbrirCompleta.addEventListener("click", () => {
+         completaSection.classList.add("activo");
++        bloquearScrollFondo();
+         indiceActual = 0; // Reinicia el juego cada vez que entrás
+         cargarPalabra();
+     });
+@@ -579,6 +650,7 @@ document.addEventListener("DOMContentLoaded", () => {
+     // Evento para CERRAR el juego
+     btnCerrarCompleta.addEventListener("click", () => {
+         completaSection.classList.remove("activo");
++        desbloquearScrollFondo();
+         document.getElementById("juegos").scrollIntoView({ behavior: 'smooth' });
+     });
+ 
+@@ -635,7 +707,7 @@ document.addEventListener("DOMContentLoaded", () => {
+ 
+     function verificarRespuesta(letra, boton) {
+         const actual = palabras[indiceActual];
+-        const botones = document.querySelectorAll(".btn-opcion");
++        const botones = opcionesDOM.querySelectorAll(".btn-opcion"); // solo los botones de este juego
+ 
+         botones.forEach(b => b.disabled = true); // Bloquea múltiples clics
+ 
+@@ -653,7 +725,7 @@ document.addEventListener("DOMContentLoaded", () => {
+ 
+         } else {
+             boton.classList.add("incorrecta");
+-            feedbackDOM.textContent = "¡Ups! Intenta de nuevo. 😅";
++            feedbackDOM.textContent = "¡Ups! Intentá de nuevo. 😅";
+             feedbackDOM.style.color = "var(--rojo)";
+             reproducirSonidoIncorrecto();
+ 
+@@ -677,6 +749,7 @@ document.addEventListener("DOMContentLoaded", () => {
+     // Evento para ABRIR el juego
+     btnAbrirImagen.addEventListener("click", () => {
+         imagenSection.classList.add("activo");
++        bloquearScrollFondo();
+         indiceImagenActual = 0;
+         cargarJuegoImagen();
+     });
+@@ -684,6 +757,7 @@ document.addEventListener("DOMContentLoaded", () => {
+     // Evento para CERRAR el juego
+     btnCerrarImagen.addEventListener("click", () => {
+         imagenSection.classList.remove("activo");
++        desbloquearScrollFondo();
+         document.getElementById("juegos").scrollIntoView({ behavior: 'smooth' });
+     });
+ 
+@@ -691,7 +765,7 @@ document.addEventListener("DOMContentLoaded", () => {
+     const preguntasImagen = [
+         { emoji: "🪐", correcta: "PLANETA", opciones: ["ESTRELLA", "PLANETA", "COHETE", "LUNA"] },
+         { emoji: "🦁", correcta: "LEÓN", opciones: ["GATO", "PERRO", "LEÓN", "TIGRE"] },
+-        { emoji: "🍎", correcta: "MANZANA", opciones: ["MANZANA", "PLÁTANO", "UVA", "NARANJA"] },
++        { emoji: "🍎", correcta: "MANZANA", opciones: ["MANZANA", "BANANA", "UVA", "NARANJA"] },
+         { emoji: "🚀", correcta: "COHETE", opciones: ["AVIÓN", "AUTO", "BARCO", "COHETE"] },
+         { emoji: "🎸", correcta: "GUITARRA", opciones: ["PIANO", "TAMBOR", "GUITARRA", "FLAUTA"] },
+         { emoji: "🐬", correcta: "DELFÍN", opciones: ["TIBURÓN", "DELFÍN", "BALLENA", "PEZ"] }
+@@ -707,7 +781,7 @@ document.addEventListener("DOMContentLoaded", () => {
+         if (indiceImagenActual >= preguntasImagen.length) {
+             imgDOM.textContent = "🏆";
+             opcionesDOM.innerHTML = `<button class="btn-opcion" id="btn-reiniciar-imagen" style="font-size: 1.2rem;">Jugar de nuevo 🔄</button>`;
+-            feedbackDOM.textContent = "¡Eres un experto relacionando imágenes y palabras!";
++            feedbackDOM.textContent = "¡Sos un experto relacionando imágenes y palabras!";
+             feedbackDOM.style.color = "var(--verde)";
+            
+             document.getElementById("btn-reiniciar-imagen").addEventListener("click", () => {
+@@ -752,7 +826,7 @@ document.addEventListener("DOMContentLoaded", () => {
+             }, 1500);
+         } else {
+             boton.classList.add("incorrecta");
+-            feedbackDOM.textContent = "¡Esa palabra no es la del dibujo! Intenta otra vez. 👀";
++            feedbackDOM.textContent = "¡Esa palabra no es la del dibujo! Intentá otra vez. 👀";
+             feedbackDOM.style.color = "var(--rojo)";
+             reproducirSonidoIncorrecto();
+            
+@@ -797,12 +871,14 @@ document.addEventListener("DOMContentLoaded", () => {
+     // Evento para ABRIR el juego
+     btnAbrirRuleta.addEventListener("click", () => {
+         seccionRuleta.classList.add("activo");
++        bloquearScrollFondo();
+         construirRuedaSVG();
+     });
+ 
+     // Evento para CERRAR el juego
+     btnCerrarRuleta.addEventListener("click", () => {
+         seccionRuleta.classList.remove("activo");
++        desbloquearScrollFondo();
+         document.getElementById("juegos").scrollIntoView({ behavior: 'smooth' });
+     });
+ 
+@@ -874,14 +950,25 @@ document.addEventListener("DOMContentLoaded", () => {
+         if (!silabaSeleccionada) return;
+         const palabra = inputPalabra.value.trim();
+ 
+-        if (palabra.length < 2) {
++        if (palabra.length === 0) {
+             mostrarFeedback("Escribí una palabra primero 🙂", false);
+             return;
+         }
+ 
++        if (palabra.length < 3) {
++            mostrarFeedback("La palabra tiene que tener al menos 3 letras ✏️", false);
++            return;
++        }
++
+         const palabraNorm = normalizar(palabra);
+         const silabaNorm = normalizar(silabaSeleccionada);
+ 
++        // Rechaza palabras inventadas que repiten la misma sílaba 3 o más veces seguidas (ej: "mamamama")
++        if (/(.{1,3})\1{2,}/.test(palabraNorm)) {
++            mostrarFeedback("¡Eso no parece una palabra de verdad! 😄 Probá con otra", false);
++            return;
++        }
++
+         if (!palabraNorm.includes(silabaNorm)) {
+             mostrarFeedback(`Esa palabra no tiene "${silabaSeleccionada}" 🤔 ¡Probá de nuevo!`, false);
+             return;
+@@ -955,13 +1042,14 @@ document.addEventListener("DOMContentLoaded", () => {
+         { letra: "U", emoji: "🍇", verso: "¡Uva, dulce y morada!" },
+         { letra: "V", emoji: "🐄", verso: "¡Vaca que dice muuu!" },
+         { letra: "W", emoji: "🧇", verso: "¡Wafle, riquísimo!" },
+-        { letra: "X", emoji: "🎶", verso: "¡Xilófon que suena así!" },
++        { letra: "X", emoji: "🎶", verso: "¡Xilófono que suena así!" },
+         { letra: "Y", emoji: "🌿", verso: "¡Yuyo que crece en el jardín!" },
+         { letra: "Z", emoji: "🦊", verso: "¡Zorro, astuto y veloz!" }
+     ];
+ 
+     let indiceLetra = 0;
+     let reproduciendo = false;
++    const letrasVisitadas = new Set(); // registra qué letras ya se vieron
+     let intervaloCancion = null;
+ 
+     const letraDOM = document.getElementById("letra-actual");
+@@ -975,6 +1063,7 @@ document.addEventListener("DOMContentLoaded", () => {
+     // Evento para ABRIR el juego
+     btnAbrirCanciones.addEventListener("click", () => {
+         seccionCanciones.classList.add("activo");
++        bloquearScrollFondo();
+         construirProgreso();
+         mostrarLetra(0);
+     });
+@@ -983,6 +1072,7 @@ document.addEventListener("DOMContentLoaded", () => {
+     btnCerrarCanciones.addEventListener("click", () => {
+         detenerCancion();
+         seccionCanciones.classList.remove("activo");
++        desbloquearScrollFondo();
+         document.getElementById("juegos").scrollIntoView({ behavior: 'smooth' });
+     });
+ 
+@@ -1014,8 +1104,9 @@ document.addEventListener("DOMContentLoaded", () => {
+         const activa = progresoDOM.children[indiceLetra];
+         if (activa) activa.scrollIntoView({ block: "nearest", inline: "center" });
+         
+-        // Si ya se visitaron las 27 letras del abecedario, se marca el juego como completado
+-        if (indiceLetra === abecedario.length - 1) {
++        // Se marca el juego como completado solo cuando se visitaron las 27 letras del abecedario
++        letrasVisitadas.add(indiceLetra);
++        if (letrasVisitadas.size === abecedario.length) {
+             marcarJuegoCompletado("canciones");
+         }
+     }
+@@ -1062,13 +1153,22 @@ document.addEventListener("DOMContentLoaded", () => {
+     // Evento para ABRIR el juego
+     btnAbrirTraza.addEventListener("click", () => {
+         trazaSection.classList.add("activo");
++        bloquearScrollFondo();
+         indiceTrazaActual = 0;
++
++        // Reinicia el botón "Siguiente" por si quedó en "Jugar de nuevo" de una partida anterior
++        btnSiguiente.textContent = "Siguiente ➡️";
++        btnSiguiente.removeEventListener("click", reiniciarTraza);
++        btnSiguiente.removeEventListener("click", avanzarLetra);
++        btnSiguiente.addEventListener("click", avanzarLetra);
++
+         cargarLetraTraza();
+     });
+ 
+     // Evento para CERRAR el juego
+     btnCerrarTraza.addEventListener("click", () => {
+         trazaSection.classList.remove("activo");
++        desbloquearScrollFondo();
+         document.getElementById("juegos").scrollIntoView({ behavior: 'smooth' });
+     });
+ 
+@@ -1088,6 +1188,7 @@ document.addEventListener("DOMContentLoaded", () => {
+ 
+     let indiceTrazaActual = 0;
+     let dibujando = false;
++    let trazoHecho = false; // se pone en true cuando el chico dibuja algo en el canvas
+ 
+     const canvas = document.getElementById("traza-canvas");
+     const ctx = canvas.getContext("2d");
+@@ -1096,10 +1197,11 @@ document.addEventListener("DOMContentLoaded", () => {
+     const progresoDOM = document.getElementById("traza-progreso");
+     const feedbackDOM = document.getElementById("traza-mensaje-feedback");
+     const btnBorrar = document.getElementById("btn-borrar-trazo");
+-    const btnSiguiente = document.getElementById("btn-siguiente-traza");;
++    const btnSiguiente = document.getElementById("btn-siguiente-traza");
+ 
+     // Dibuja la letra guía punteada en el canvas
+     function dibujarGuia() {
++        trazoHecho = false;
+         ctx.clearRect(0, 0, canvas.width, canvas.height);
+         const actual = letrasTraza[indiceTrazaActual];
+         ctx.save();
+@@ -1116,10 +1218,10 @@ document.addEventListener("DOMContentLoaded", () => {
+     function cargarLetraTraza() {
+         if (indiceTrazaActual >= letrasTraza.length) {
+             emojiDOM.textContent = "🏆";
+-            palabraDOM.textContent = "¡COMPLETASTE EL ABECEDARIO!";
++            palabraDOM.textContent = "¡PRACTICASTE TODAS LAS LETRAS!";
+             progresoDOM.textContent = "";
+             ctx.clearRect(0, 0, canvas.width, canvas.height);
+-            feedbackDOM.textContent = "¡Practicaste todas las letras! 🎉";
++            feedbackDOM.textContent = "¡Excelente trabajo! 🎉";
+             feedbackDOM.style.color = "var(--verde)";
+ 
+             btnSiguiente.textContent = "Jugar de nuevo 🔄";
+@@ -1135,10 +1237,24 @@ document.addEventListener("DOMContentLoaded", () => {
+         palabraDOM.textContent = `${actual.letra} de ${actual.palabra}`;
+         progresoDOM.textContent = `(${indiceTrazaActual + 1} / ${letrasTraza.length})`;
+         feedbackDOM.textContent = "";
+-        dibujarGuia();
++
++        // Espera a que cargue la fuente 'Baloo 2' antes de dibujar la letra guía
++        if (document.fonts && document.fonts.load) {
++            document.fonts.load("280px 'Baloo 2'").then(dibujarGuia, dibujarGuia);
++        } else {
++            dibujarGuia();
++        }
+     }
+ 
+     function avanzarLetra() {
++        // Solo avanza si el chico trazó algo
++        if (!trazoHecho) {
++            feedbackDOM.textContent = "¡Primero trazá la letra! ✏️";
++            feedbackDOM.style.color = "var(--naranja)";
++            return;
++        }
++
++        trazoHecho = false; // evita que un doble clic saltee una letra
+         indiceTrazaActual++;
+         feedbackDOM.textContent = "¡Muy bien hecho! ✏️";
+         feedbackDOM.style.color = "var(--verde)";
+@@ -1196,6 +1312,7 @@ document.addEventListener("DOMContentLoaded", () => {
+         ctx.setLineDash([]);
+         ctx.lineTo(pos.x, pos.y);
+         ctx.stroke();
++        trazoHecho = true;
+     }
+ 
+     function terminarTrazo() {
+diff --git a/style.css b/style.css
+index 3654eb2..e6afcc2 100644
+--- a/style.css
++++ b/style.css
+@@ -733,7 +733,7 @@ nav a.active {
+ .form-group input:focus, .form-group textarea:focus {
+     outline: none;
+     border-color: var(--morado);
+-    box-shadow: 0 0 0 4px rgba(201,127,245,0.2);
++    box-shadow: 0 0 0 4px rgba(72,187,212,0.2);
+     background: #fff;
+ }
+ 
+@@ -769,7 +769,7 @@ nav a.active {
+     font-size: 1.15rem;
+     font-weight: 800;
+     cursor: pointer;
+-    box-shadow: 0 6px 20px rgba(201,127,245,0.4);
++    box-shadow: 0 6px 20px rgba(72,187,212,0.4);
+     transition: transform .2s, box-shadow .2s, opacity .2s;
+     width: 100%;
+     margin-top: 6px;
+@@ -777,7 +777,7 @@ nav a.active {
+ 
+ .btn-submit:hover:not(:disabled) {
+     transform: translateY(-3px);
+-    box-shadow: 0 10px 28px rgba(201,127,245,0.5);
++    box-shadow: 0 10px 28px rgba(72,187,212,0.5);
+ }
+ 
+ .btn-submit:disabled { opacity: .6; cursor: not-allowed; }
+@@ -916,7 +916,6 @@ footer p { font-size: .9rem; opacity: .8; margin-bottom: 16px; }
+     .cards-grid { grid-template-columns: 1fr; }
+     .ong-banner { flex-direction: column; text-align: center; }
+     .ong-btn { margin: 0 auto; }
+-    .form-container { padding: 28px 20px; }
+     .consejos-lista li { flex-direction: column; }
+ }
+ 
+@@ -1070,7 +1069,6 @@ footer p { font-size: .9rem; opacity: .8; margin-bottom: 16px; }
+ 
+ .completa-container--verde { border-color: var(--verde); }
+ .completa-container--azul { border-color: var(--azul); }
+-.completa-container--teal { border-color: var(--teal); }
+ 
+ .juego-instrucciones {
+     margin: 0 0 20px;
+@@ -1467,23 +1465,12 @@ footer p { font-size: .9rem; opacity: .8; margin-bottom: 16px; }
+     margin-bottom: 30px;
+ }
+ 
+-.btn-opcion-chico {
+-    font-size: 1.1rem;
+-    padding: 10px 22px;
+-    border-radius: 50px;
+-}
+-
+ .btn-play.reproduciendo {
+     background: var(--rojo);
+     border-color: #d12e38;
+     color: #fff;
+ }
+ 
+-.btn-cerrar-juego {
+-    background: var(--rojo) !important;
+-    box-shadow: 0 6px 18px rgba(255,60,72,0.4);
+-}
+-
+ @media (max-width: 480px) {
+     .letra-grande { font-size: 4.2rem; }
+ }
+@@ -1578,7 +1565,7 @@ footer p { font-size: .9rem; opacity: .8; margin-bottom: 16px; }
+     padding: 40px 16px;
+ }
+ 
+-#sopa-section.activo .section-header, #ruleta-section.activo .section-header,
++#ruleta-section.activo .section-header,
+ #canciones-section.activo .section-header {
+     background: #fff;
+     border-radius: var(--radius);
+-- 
+2.43.0
+
